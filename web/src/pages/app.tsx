@@ -7,7 +7,7 @@ function App() {
       <header>
         <h1>ETH Gas Tracker</h1>
       </header>
-      <div>
+      <div className="container">
         <GasPrices />
       </div>
     </div>

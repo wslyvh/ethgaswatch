@@ -10,6 +10,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "bootstrap": "^4.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
