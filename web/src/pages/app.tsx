@@ -1,4 +1,5 @@
 import React from 'react';
+import { GasPrices } from '../components/gasprices';
 
 function App() {
   return (
@@ -7,10 +8,7 @@ function App() {
         <h1>ETH Gas Tracker</h1>
       </header>
       <div>
-        <h2>Recommended Gas Prices</h2>
-        <div>
-          9.000
-        </div>
+        <GasPrices />
       </div>
     </div>
   );
