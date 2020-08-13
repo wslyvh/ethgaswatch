@@ -9,9 +9,9 @@ interface GasPriceProps {
 
 export const GasPriceCard = (props: GasPriceProps) => {
     return (
-        <div className="card project-card shadow-sm bg-white rounded">
-            <h4 className="card-title">{props.title}</h4>
-            <p className="card-text">{props.price} ~{props.wait}m</p>
+        <div className="card shadow-sm rounded">
+            <h2 className="card-title">{props.title}</h2>
+            <p className="card-text">{props.price} gwei &laquo; {props.wait}m</p>
         </div>
     )
 }

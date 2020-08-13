@@ -36,8 +36,6 @@ export const GasPrices = () => {
 
     return (
         <div>
-            <h2>Recommended Gas Prices</h2>
-
             <div className="card-columns">
                 <GasPriceCard title="Low" price={gasPrices.low} wait={gasPrices.lowWait} />
                 <GasPriceCard title="Average" price={gasPrices.average} wait={gasPrices.averageWait} />
