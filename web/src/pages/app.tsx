@@ -5,7 +5,7 @@ function App() {
   return (
     <div>
       <header>
-        <h1>⛽ ETH Gas Tracker</h1>
+        <h1><span role="img" aria-label="Fuel pump">⛽</span> ETH Gas Tracker</h1>
       </header>
       <div className="container">
         <GasPrices />
