@@ -2,25 +2,39 @@
 import React, { useEffect, useState } from 'react';
 import { Loading } from './loading';
 import { ErrorAlert } from './error';
-import { getGasPrices } from '../services/GasStationService';
+import { fromGasStation, fromEtherscan, fromGasNow } from '../services/GasService';
 import { RecommendedGasPrices } from '../types';
 import { GasPriceCard } from './gaspricecard';
+import { GasPricesRow } from './gaspricesrow';
 
 export const GasPrices = () => {
     const [loading, setLoading] = useState(true);
-    const [gasPrices, setGasPrices] = useState<RecommendedGasPrices>();
+    const [gasstationPrices, setGasstationPrices] = useState<RecommendedGasPrices>();
+    const [etherscanPrices, setEtherscanPrices] = useState<RecommendedGasPrices>();
+    const [gasnowPrices, setGasnowPrices] = useState<RecommendedGasPrices>();
 
     useEffect(() => {
-        async function asyncEffect() {      
-            try {       
-            const prices = await getGasPrices();
-
-            setGasPrices(prices);
-            setLoading(false);
+        async function asyncEffect() {
+            try {
+                const prices = await fromGasStation();
+                setGasstationPrices(prices);
             } catch (ex) { 
-                console.log(ex);
-                setLoading(false);
+                console.log("GASSTATION", ex);
             }
+            try {
+                const prices = await fromEtherscan();
+                setEtherscanPrices(prices);
+            } catch (ex) { 
+                console.log("ETHERSCAN", ex);
+            }
+            try {
+                const prices = await fromGasNow();
+                setGasnowPrices(prices);
+            } catch (ex) { 
+                console.log("GASNOW", ex);
+            }
+
+            setLoading(false);
         }
         
         asyncEffect();
@@ -30,17 +44,15 @@ export const GasPrices = () => {
         return <Loading />
     } 
 
-    if (!gasPrices) { 
+    if (!gasstationPrices && !etherscanPrices && !gasnowPrices) { 
         return <ErrorAlert message="Couldn't retrieve gas prices." />
     } 
 
     return (
         <div>
-            <div className="card-columns">
-                <GasPriceCard title="Low" price={gasPrices.low} wait={gasPrices.lowWait} />
-                <GasPriceCard title="Average" price={gasPrices.average} wait={gasPrices.averageWait} />
-                <GasPriceCard title="Fast" price={gasPrices.fast} wait={gasPrices.fastWait} />
-            </div>
+            <GasPricesRow source={"ETH Gas Station"} gasPrices={gasstationPrices} />
+            <GasPricesRow source={"Etherscan"} gasPrices={etherscanPrices} />
+            <GasPricesRow source={"GAS NOW"} gasPrices={gasnowPrices} />
         </div>
     )
 }
