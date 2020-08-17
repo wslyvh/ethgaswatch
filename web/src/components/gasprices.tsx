@@ -4,7 +4,6 @@ import { Loading } from './loading';
 import { ErrorAlert } from './error';
 import { fromGasStation, fromEtherscan, fromGasNow } from '../services/GasService';
 import { RecommendedGasPrices } from '../types';
-import { GasPriceCard } from './gaspricecard';
 import { GasPricesRow } from './gaspricesrow';
 
 export const GasPrices = () => {
