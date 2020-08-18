@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var fetch = require("node-fetch");
 function handler(event, context) {
     return __awaiter(this, void 0, void 0, function () {
         var response, body;
