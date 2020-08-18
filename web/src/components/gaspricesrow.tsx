@@ -13,7 +13,7 @@ export const GasPricesRow = (props: GasPricesRowProps) => {
     if (props.gasPrices) { 
         return (
             <>
-                <h4>{props.source}</h4>
+                <h3>{props.source}</h3>
                 <div className="card-columns">
                     <GasPriceCard title="Low" price={props.gasPrices.low} wait={props.gasPrices.lowWait} />
                     <GasPriceCard title="Average" price={props.gasPrices.average} wait={props.gasPrices.averageWait} />
