@@ -9,7 +9,7 @@ export async function fromEtherscan(): Promise<RecommendedGasPrices> {
     console.log("ETHERSCAN", body);
 
     return {
-        fast: 0,
+        fast: Number(body.result.FastGasPrice),
         fastWait: 0,
         average: Number(body.result.ProposeGasPrice),
         averageWait: 0,
