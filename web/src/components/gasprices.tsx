@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Loading } from './loading';
 import { ErrorAlert } from './error';
-import { fromGasStation, fromEtherscan, fromGasNow } from '../services/GasService';
+import { fromGasStation, fromEtherscan, fromGasNow, fromUpvest } from '../services/GasService';
 import { RecommendedGasPrices } from '../types';
 import { GasPricesRow } from './gaspricesrow';
 
@@ -11,6 +11,7 @@ export const GasPrices = () => {
     const [gasstationPrices, setGasstationPrices] = useState<RecommendedGasPrices>();
     const [etherscanPrices, setEtherscanPrices] = useState<RecommendedGasPrices>();
     const [gasnowPrices, setGasnowPrices] = useState<RecommendedGasPrices>();
+    const [upvestPrices, setUpvestPrices] = useState<RecommendedGasPrices>();
 
     useEffect(() => {
         async function asyncEffect() {
@@ -32,6 +33,12 @@ export const GasPrices = () => {
             } catch (ex) { 
                 console.log("GASNOW", ex);
             }
+            try {
+                const prices = await fromUpvest();
+                setUpvestPrices(prices);
+            } catch (ex) { 
+                console.log("UPVEST", ex);
+            }
 
             setLoading(false);
         }
@@ -52,6 +59,7 @@ export const GasPrices = () => {
             <GasPricesRow source={"ETH Gas Station"} gasPrices={gasstationPrices} />
             <GasPricesRow source={"Etherscan"} gasPrices={etherscanPrices} />
             <GasPricesRow source={"GAS NOW"} gasPrices={gasnowPrices} />
+            <GasPricesRow source={"Upvest"} gasPrices={upvestPrices} />
         </div>
     )
 }

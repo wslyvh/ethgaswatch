@@ -37,7 +37,7 @@ export async function fromGasStation(): Promise<RecommendedGasPrices> {
 
 export async function fromGasNow(): Promise<RecommendedGasPrices> { 
 
-    const response = await fetch(`https://www.gasnow.org/api/v1/gas/price`, { method: 'GET', mode: 'cors' });
+    const response = await fetch(`https://www.gasnow.org/api/v1/gas/price`);
 
     console.log(response);
     const body = await response.json();
@@ -50,6 +50,25 @@ export async function fromGasNow(): Promise<RecommendedGasPrices> {
         average: WeiToGwei(body.data.top200),
         averageWait: 0,
         low: WeiToGwei(body.data.top400),
+        lowWait: 0
+    } as RecommendedGasPrices;
+}
+
+export async function fromUpvest(): Promise<RecommendedGasPrices> { 
+
+    const response = await fetch(`https://fees.upvest.co/estimate_eth_fees`);
+
+    console.log(response);
+    const body = await response.json();
+
+    console.log("UPVEST", body);
+
+    return {
+        fast: body.estimates.fastest,
+        fastWait: 0,
+        average: body.estimates.medium,
+        averageWait: 0,
+        low: body.estimates.slow,
         lowWait: 0
     } as RecommendedGasPrices;
 }
