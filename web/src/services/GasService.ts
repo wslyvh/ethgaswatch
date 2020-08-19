@@ -1,9 +1,10 @@
+import * as dotenv from "dotenv";
 import { RecommendedGasPrices } from "../types";
-import { ETHERSCAN_APIKEY, GASSTATION_APIKEY } from "../constants";
+import { AppConfig } from "../config/app";
 
 export async function fromEtherscan(): Promise<RecommendedGasPrices> { 
 
-    const response = await fetch(`https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${ETHERSCAN_APIKEY}`);
+    const response = await fetch(`https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${AppConfig.ETHERSCAN_APIKEY}`);
     const body = await response.json();
     console.log("ETHERSCAN", body);
 
@@ -19,7 +20,7 @@ export async function fromEtherscan(): Promise<RecommendedGasPrices> {
 
 export async function fromGasStation(): Promise<RecommendedGasPrices> { 
 
-    const response = await fetch(`https://ethgasstation.info/api/ethgasAPI.json?api-key=${GASSTATION_APIKEY}`);
+    const response = await fetch(`https://ethgasstation.info/api/ethgasAPI.json?api-key=${AppConfig.GASSTATION_APIKEY}`);
     const body = await response.json();
     console.log("GASSTATION", body);
 
