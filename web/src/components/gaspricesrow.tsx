@@ -15,9 +15,9 @@ export const GasPricesRow = (props: GasPricesRowProps) => {
             <>
                 <h3>{props.source}</h3>
                 <div className="card-columns">
-                    <GasPriceCard title="Low" price={props.gasPrices.low} wait={props.gasPrices.lowWait} />
-                    <GasPriceCard title="Average" price={props.gasPrices.average} wait={props.gasPrices.averageWait} />
-                    <GasPriceCard title="Fast" price={props.gasPrices.fast} wait={props.gasPrices.fastWait} />
+                    <GasPriceCard title="Low" price={props.gasPrices.low} />
+                    <GasPriceCard title="Average" price={props.gasPrices.average} />
+                    <GasPriceCard title="Fast" price={props.gasPrices.fast} />
                 </div>
             </>
         )

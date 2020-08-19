@@ -1,4 +1,3 @@
-import * as dotenv from "dotenv";
 import { RecommendedGasPrices } from "../types";
 import { AppConfig } from "../config/app";
 
@@ -10,11 +9,8 @@ export async function fromEtherscan(): Promise<RecommendedGasPrices> {
 
     return {
         fast: Number(body.result.FastGasPrice),
-        fastWait: 0,
         average: Number(body.result.ProposeGasPrice),
-        averageWait: 0,
         low: Number(body.result.SafeGasPrice),
-        lowWait: 0,
     } as RecommendedGasPrices;
 }
 
@@ -26,11 +22,8 @@ export async function fromGasStation(): Promise<RecommendedGasPrices> {
 
     return {
         fast: body.fastest / 10,
-        fastWait: body.fastestWait,
         average: body.average / 10,
-        averageWait: body.avgWait,
         low: body.safeLow / 10,
-        lowWait: body.safeLowWait
     } as RecommendedGasPrices;
 }
 
@@ -42,11 +35,8 @@ export async function fromGasNow(): Promise<RecommendedGasPrices> {
 
     return {
         fast: WeiToGwei(body.data.top50),
-        fastWait: 0,
         average: WeiToGwei(body.data.top200),
-        averageWait: 0,
         low: WeiToGwei(body.data.top400),
-        lowWait: 0
     } as RecommendedGasPrices;
 }
 
@@ -58,11 +48,8 @@ export async function fromUpvest(): Promise<RecommendedGasPrices> {
 
     return {
         fast: body.estimates.fastest,
-        fastWait: 0,
         average: body.estimates.medium,
-        averageWait: 0,
         low: body.estimates.slow,
-        lowWait: 0
     } as RecommendedGasPrices;
 }
 
@@ -74,11 +61,8 @@ export function Average(prices: RecommendedGasPrices[]) : RecommendedGasPrices {
 
     return {
         fast: fast,
-        fastWait: 1,
         average: average,
-        averageWait: 1,
         low: low,
-        lowWait: 1
     } as RecommendedGasPrices;
 }
 

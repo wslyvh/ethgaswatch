@@ -4,7 +4,6 @@ import React from 'react';
 interface GasPriceProps { 
     title: string
     price: number
-    wait: number
 }
 
 export const GasPriceCard = (props: GasPriceProps) => {
