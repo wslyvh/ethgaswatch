@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.2",
+    "dotenv": "^8.2.0",
     "encoding": "^0.1.13",
     "http-proxy-middleware": "^1.0.5",
     "node-fetch": "^2.6.0",
@@ -23,6 +24,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/aws-lambda": "^8.10.61",
+    "@types/dotenv": "^8.2.0",
     "@types/jest": "^24.0.0",
     "@types/node": "^12.12.54",
     "@types/node-fetch": "^2.5.7",

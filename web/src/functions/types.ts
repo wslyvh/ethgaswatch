@@ -1,4 +1,7 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 interface HelloResponse {
     statusCode: number
@@ -12,6 +15,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
         body: JSON.stringify({
             msg: `Hello TypeScript function`,
             params,
+            env: process.env.TEST_VAR
         })
     }
 
