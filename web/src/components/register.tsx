@@ -15,7 +15,23 @@ export const Register = () => {
         else {
             setError("");
 
-            // save email/price
+            const body = {
+                email,
+                gasprice
+            };
+
+            try { 
+                const response = await fetch('/.netlify/functions/register', {
+                    method: 'POST',
+                    body: JSON.stringify(body),
+                    headers: {'Content-Type': 'application/json'}
+                });
+
+                const result = await response.json();
+                console.log(result);
+            } catch { 
+                setError("Error registering email. Check your input and try again.");
+            }
         }
     }
 
