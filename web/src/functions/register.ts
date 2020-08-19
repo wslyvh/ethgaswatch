@@ -20,12 +20,14 @@ export async function handler(event: APIGatewayEvent, context: Context) {
         body: JSON.stringify({
             "fields": {
                 "Email": data.email,
-                "Price": data.gasprice,
+                "Price": Number(data.gasprice),
                 "Confirmed": true
             }
         }),
     })
+
     const body = await response.json();
+    console.log(body);
 
     return {
         statusCode: 200,
