@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.2",
+    "encoding": "^0.1.13",
     "node-fetch": "^2.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"

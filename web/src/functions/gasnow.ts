@@ -1,3 +1,4 @@
+require('encoding');
 import { Context, APIGatewayEvent } from 'aws-lambda'
 import fetch from 'node-fetch';
 
