@@ -37,7 +37,7 @@ export async function fromGasStation(): Promise<RecommendedGasPrices> {
 
 export async function fromGasNow(): Promise<RecommendedGasPrices> { 
 
-    const response = await fetch(`https://www.gasnow.org/api/v1/gas/price`);
+    const response = await fetch(`https://ethgas.watch/.netlify/functions/gasnow`);
 
     console.log(response);
     const body = await response.json();
