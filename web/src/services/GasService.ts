@@ -5,7 +5,6 @@ export async function fromEtherscan(): Promise<RecommendedGasPrices> {
 
     const response = await fetch(`https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${ETHERSCAN_APIKEY}`);
     const body = await response.json();
-
     console.log("ETHERSCAN", body);
 
     return {
@@ -22,7 +21,6 @@ export async function fromGasStation(): Promise<RecommendedGasPrices> {
 
     const response = await fetch(`https://ethgasstation.info/api/ethgasAPI.json?api-key=${GASSTATION_APIKEY}`);
     const body = await response.json();
-
     console.log("GASSTATION", body);
 
     return {
@@ -37,11 +35,8 @@ export async function fromGasStation(): Promise<RecommendedGasPrices> {
 
 export async function fromGasNow(): Promise<RecommendedGasPrices> { 
 
-    const response = await fetch(`https://ethgas.watch/.netlify/functions/gasnow`);
-
-    console.log(response);
+    const response = await fetch(`/.netlify/functions/gasnow`);
     const body = await response.json();
-
     console.log("GASNOW", body);
 
     return {
@@ -57,10 +52,7 @@ export async function fromGasNow(): Promise<RecommendedGasPrices> {
 export async function fromUpvest(): Promise<RecommendedGasPrices> { 
 
     const response = await fetch(`https://fees.upvest.co/estimate_eth_fees`);
-
-    console.log(response);
     const body = await response.json();
-
     console.log("UPVEST", body);
 
     return {

@@ -4,7 +4,7 @@
   "author": "wslyvh",
   "version": "0.1.0",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently 'react-scripts start' 'netlify-lambda serve src/functions'",
     "build": "react-scripts build && netlify-lambda build src/functions",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -12,6 +12,7 @@
   "dependencies": {
     "bootstrap": "^4.5.2",
     "encoding": "^0.1.13",
+    "http-proxy-middleware": "^1.0.5",
     "node-fetch": "^2.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
@@ -27,6 +28,7 @@
     "@types/node-fetch": "^2.5.7",
     "@types/react": "^16.9.46",
     "@types/react-dom": "^16.9.8",
+    "concurrently": "^5.3.0",
     "netlify-lambda": "^2.0.1",
     "react-scripts": "3.4.2",
     "typescript": "^3.7.5"
