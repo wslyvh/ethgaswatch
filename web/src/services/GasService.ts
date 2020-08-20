@@ -70,7 +70,7 @@ export function Average(prices: RecommendedGasPrices[]) : RecommendedGasPrices {
     var low = prices.filter(i => i.low > 0).map(i => i.low).reduce((a, v) => a + v) / prices.filter(i => i.low > 0).length;
 
     return {
-        name: "Average",
+        name: "AVERAGE",
         fast: Math.round(fast),
         average: Math.round(average),
         low: Math.round(low),

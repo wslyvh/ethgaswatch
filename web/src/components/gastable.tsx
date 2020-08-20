@@ -12,7 +12,7 @@ export const GasTable = () => {
             try {
                 const response = await fetch(`/.netlify/functions/prices`);
                 const body = await response.json() as RecommendedGasPrices[];
-                const avg = body.find(i => i.name === "Average");
+                const avg = body.find(i => i.name === "AVERAGE");
 
                 setAveragePrice(avg);
                 setGasPrices(body);
@@ -36,7 +36,7 @@ export const GasTable = () => {
 
     let renderAveragePrice = <></>
     if (averagePrice) { 
-        renderAveragePrice = <GasPriceRow source={"Average Price"} gasPrices={averagePrice} />
+        renderAveragePrice = <GasPriceRow name={averagePrice.name} source={averagePrice.source} fast={averagePrice.fast} average={averagePrice.average} low={averagePrice.low} />
     }
 
     let renderTableRows = gasprices.map((member: RecommendedGasPrices, id: number) => 
@@ -52,8 +52,8 @@ export const GasTable = () => {
                 <thead className="thead-secondary">
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col">Low</th>
-                        <th scope="col">Average</th>
+                        <th scope="col">Slow</th>
+                        <th scope="col">Normal</th>
                         <th scope="col">Fast</th>
                     </tr>
                 </thead>
