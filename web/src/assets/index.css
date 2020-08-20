@@ -29,6 +29,14 @@ h4 {
   font-size: .83em;
 }
 
+table, tr, td { 
+  color: #D4D4DC;
+}
+
+.table-index { 
+  text-align: left;
+}
+
 .container { 
   margin-top: 20px;
 }

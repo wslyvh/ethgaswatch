@@ -1,6 +1,5 @@
 import React from 'react';
-import { GasPrices } from '../components/gasprices';
-import { Register } from '../components/register';
+import { GasTable, Register } from '../components/';
 
 function App() {
   return (
@@ -9,8 +8,8 @@ function App() {
         <h1><span role="img" aria-label="Fuel pump">⛽</span> ETH Gas.watch</h1>
       </header>
       <div className="container">
-        <GasPrices />
         <Register />
+        <GasTable />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ErrorAlert } from './error';
+import { ErrorAlert } from './';
 
 export const Register = () => {
     const [error, setError] = useState("");
@@ -42,23 +42,22 @@ export const Register = () => {
 
     return (
         <>
-        <div>
-            <h2>Watch</h2>
+        <div className="mt-5">
             <p>Get notified when gas prices drop below the threshold.</p>
             
             {renderErrorMessage}
 
             <div className="col-12">
-                <div className="input-group input-group-sm w-25 mx-auto m-2">
+                <div className="input-group input-group-sm w-50 mx-auto m-2">
                     <input type="text" className="form-control input-sm" placeholder="Email" aria-label="Email" 
                         value={email} onChange={e => setEmail(e.target.value)} />
                 </div>
 
-                <div className="input-group input-group-sm w-25 mx-auto">
+                <div className="input-group input-group-sm w-50 mx-auto">
                     <input type="text" className="form-control" placeholder="Gas price" aria-label="Gasprice" 
                         value={gasprice} onChange={e => setGasprice(e.target.value)} />
                         <div className="input-group-append">
-                            <button className="btn btn-outline-primary" type="button" id="button-register" onClick={() => registerEmail()}>watch</button>
+                            <button className="btn btn-outline-secondary" type="button" id="button-register" onClick={() => registerEmail()}>watch</button>
                         </div>
                 </div>
             </div>

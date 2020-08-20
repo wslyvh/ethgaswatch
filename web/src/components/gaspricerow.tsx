@@ -1,20 +1,19 @@
 
 import React from 'react';
 import { RecommendedGasPrices } from '../types';
-import { GasPriceCard } from './gaspricecard';
+import { GasPriceCard } from './';
 
-interface GasPricesRowProps { 
+interface GasPriceRowProps { 
     source: string,
     gasPrices?: RecommendedGasPrices
 }
 
-export const GasPricesRow = (props: GasPricesRowProps) => {
+export const GasPriceRow = (props: GasPriceRowProps) => {
 
     if (props.gasPrices) { 
         return (
             <>
-                <h3>{props.source}</h3>
-                <div className="card-columns">
+                <div className="card-columns mt-5">
                     <GasPriceCard title="Low" price={props.gasPrices.low} />
                     <GasPriceCard title="Average" price={props.gasPrices.average} />
                     <GasPriceCard title="Fast" price={props.gasPrices.fast} />
