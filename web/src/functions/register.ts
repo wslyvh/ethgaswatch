@@ -1,7 +1,6 @@
-require('encoding');
 import { Context, APIGatewayEvent } from 'aws-lambda'
-import fetch from 'node-fetch';
-import { AppConfig } from '../config/app'
+import { RegisterUser } from '../services/AirtableService';
+import { SendConfirmationEmail } from '../services/EmailService';
 
 export async function handler(event: APIGatewayEvent, context: Context) {
     if (event.httpMethod !== "POST")
@@ -11,23 +10,8 @@ export async function handler(event: APIGatewayEvent, context: Context) {
     if (!data.email || !data.gasprice)
         return { statusCode: 400, body: "Bad Request" };
 
-    const response = await fetch(`https://api.airtable.com/v0/${AppConfig.AIRTABLE_BASEID}/Users`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${AppConfig.AIRTABLE_APIKEY}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "fields": {
-                "Email": data.email,
-                "Price": Number(data.gasprice),
-                "Confirmed": true
-            }
-        }),
-    })
-
-    const body = await response.json();
-    console.log(body);
+    const id = await RegisterUser(data.email, data.gasprice);
+    await SendConfirmationEmail(data.email, id);
 
     return {
         statusCode: 200,

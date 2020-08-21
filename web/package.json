@@ -10,6 +10,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.2.4",
     "bootstrap": "^4.5.2",
     "dotenv": "^8.2.0",
     "encoding": "^0.1.13",
