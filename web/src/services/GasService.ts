@@ -3,11 +3,75 @@ import { RecommendedGasPrices } from "../types";
 import { AppConfig } from "../config/app";
 require('encoding');
 
+export async function GetAllPrices(): Promise<RecommendedGasPrices[]> { 
+
+    const results = new Array<RecommendedGasPrices>();
+    try {
+        const prices = await fromGasStation();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from GAS STATION", ex);
+    }
+    try {
+        const prices = await fromEtherscan();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from ETHERSCAN", ex);
+    }
+    try {
+        const prices = await fromGasNow();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from GASNOW", ex);
+    }
+    try {
+        const prices = await fromUpvest();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from UPVEST", ex);
+    }
+
+    const prices = Average(results);
+    results.push(prices);
+
+    return results;
+}
+
+export async function GetAveragePrice(): Promise<RecommendedGasPrices> { 
+
+    const results = new Array<RecommendedGasPrices>();
+    try {
+        const prices = await fromGasStation();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from GAS STATION", ex);
+    }
+    try {
+        const prices = await fromEtherscan();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from ETHERSCAN", ex);
+    }
+    try {
+        const prices = await fromGasNow();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from GASNOW", ex);
+    }
+    try {
+        const prices = await fromUpvest();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from UPVEST", ex);
+    }
+
+    return Average(results);
+}
+
 export async function fromEtherscan(): Promise<RecommendedGasPrices> { 
 
     const response = await fetch(`https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${AppConfig.ETHERSCAN_APIKEY}`);
     const body = await response.json();
-    console.log("ETHERSCAN", body);
 
     return {
         name: "Etherscan",
@@ -22,7 +86,6 @@ export async function fromGasStation(): Promise<RecommendedGasPrices> {
 
     const response = await fetch(`https://ethgasstation.info/api/ethgasAPI.json?api-key=${AppConfig.GASSTATION_APIKEY}`);
     const body = await response.json();
-    console.log("GASSTATION", body);
 
     return {
         name: "Gas station",
@@ -37,7 +100,6 @@ export async function fromGasNow(): Promise<RecommendedGasPrices> {
 
     const response = await fetch(`https://www.gasnow.org/api/v1/gas/price`);
     const body = await response.json();
-    console.log("GASNOW", body);
 
     return {
         name: "GAS Now",
@@ -52,7 +114,6 @@ export async function fromUpvest(): Promise<RecommendedGasPrices> {
 
     const response = await fetch(`https://fees.upvest.co/estimate_eth_fees`);
     const body = await response.json();
-    console.log("UPVEST", body);
 
     return {
         name: "Upvest",

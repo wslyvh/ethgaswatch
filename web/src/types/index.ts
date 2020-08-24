@@ -5,3 +5,9 @@ export type RecommendedGasPrices = {
     average: number;
     low: number;
 }
+
+export type RegisteredEmailAddress = { 
+    id: string;
+    email: string;
+    price: number;
+}
