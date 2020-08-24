@@ -35,7 +35,7 @@ export const Register = () => {
 
                 const result = await response.json();
                 if (result) { 
-                    setMessage(result.message);
+                    setMessage("Registration received. Please confirm your email address (check your spam folder).");
                 }
             } catch { 
                 setMessage("");
