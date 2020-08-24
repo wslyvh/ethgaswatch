@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
-import { ErrorAlert } from './';
+import { Alert } from './';
 
 export const Register = () => {
     const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
     const [email, setEmail] = useState("");
     const [gasprice, setGasprice] = useState("30");
 
     const registerEmail = async () => {
-        console.log("Register email", email, gasprice);
 
         var emailRegex = /\S+@\S+\.\S+/;
-        if (!emailRegex.test(email)) setError("Email not valid");
-        else if (isNaN(parseInt(gasprice))) setError("No valid gasprice. Only use numbers")
+        if (!emailRegex.test(email)) {
+            setMessage("");
+            setError("Email not valid");
+        }
+        else if (isNaN(parseInt(gasprice))) {
+            setMessage("");
+            setError("No valid gasprice. Only use numbers")
+        }
         else {
             setError("");
 
@@ -28,16 +34,22 @@ export const Register = () => {
                 });
 
                 const result = await response.json();
-                console.log(result);
+                if (result) { 
+                    setMessage(result.message);
+                }
             } catch { 
+                setMessage("");
                 setError("Error registering email. Check your input and try again.");
             }
         }
     }
 
-    let renderErrorMessage = <></>
+    let renderAlertMessage = <></>
     if (error) { 
-        renderErrorMessage = <ErrorAlert message={error} />
+        renderAlertMessage = <Alert type="danger" message={error} />
+    }
+    if (message) { 
+        renderAlertMessage = <Alert type="success" message={message} />
     }
 
     return (
@@ -45,7 +57,7 @@ export const Register = () => {
         <div className="mt-5">
             <p>Get notified when gas prices drop below the threshold.</p>
             
-            {renderErrorMessage}
+            {renderAlertMessage}
 
             <div className="col-12">
                 <div className="input-group input-group-sm w-50 mx-auto m-2">

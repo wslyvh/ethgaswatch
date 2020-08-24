@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RecommendedGasPrices } from '../types';
-import { ErrorAlert, GasPriceRow, GasTableRow, Loading } from './';
+import { Alert, GasPriceRow, GasTableRow, Loading } from './';
 
 export const GasTable = () => {
     const [loading, setLoading] = useState(true);
@@ -31,7 +31,7 @@ export const GasTable = () => {
     }
 
     if (gasprices.length < 1) { 
-        return <ErrorAlert message="Couldn't retrieve gas prices." />
+        return <Alert type="danger" message="Couldn't retrieve gas prices." />
     } 
 
     let renderAveragePrice = <></>

@@ -1,4 +1,4 @@
-export { ErrorAlert } from './error';
+export { Alert } from './alert';
 export { GasPriceCard } from './gaspricecard'
 export { GasPriceRow } from './gaspricerow';
 export { GasTable } from './gastable';
