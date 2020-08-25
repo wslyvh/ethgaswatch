@@ -40,14 +40,17 @@ export async function UpdateUser(id: string, fields: any): Promise<string> {
     return body.id;
 }
 
-export async function GetUsers(gasprice?: number): Promise<RegisteredEmailAddress[]> { 
+export async function GetUsers(view: "Active" | "Flagged", gasprice: number): Promise<RegisteredEmailAddress[]> { 
 
     let priceFilter = "";
-    if (gasprice) { 
-        priceFilter = `&filterByFormula=${gasprice}+%3C+%7BPrice%7D`
+    if (view == "Active") {
+        priceFilter = `&filterByFormula=${gasprice}+%3C+%7BPrice%7D` // <
+    }
+    if (view === "Flagged") { 
+        priceFilter = `&filterByFormula=${gasprice}+%3E+%7BPrice%7D` // >
     }
 
-    const response = await fetch(`https://api.airtable.com/v0/${AppConfig.AIRTABLE_BASEID}/Users?view=Active&fields%5B%5D=Email&fields%5B%5D=Price${priceFilter}`, {
+    const response = await fetch(`https://api.airtable.com/v0/${AppConfig.AIRTABLE_BASEID}/Users?view=${view}&fields%5B%5D=Email&fields%5B%5D=Price${priceFilter}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${AppConfig.AIRTABLE_APIKEY}`
