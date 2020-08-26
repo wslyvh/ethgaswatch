@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import { RecommendedGasPrices } from "../types";
 import { AppConfig } from "../config/app";
+import { WeiToGwei } from '../utils/parse';
 require('encoding');
 
 export async function GetAllPrices(): Promise<RecommendedGasPrices[]> { 
@@ -162,8 +163,4 @@ export function Average(prices: RecommendedGasPrices[]) : RecommendedGasPrices {
         average: Math.round(average),
         low: Math.round(low),
     } as RecommendedGasPrices;
-}
-
-export function WeiToGwei(value: number): number { 
-    return value / 1e9; 
 }
