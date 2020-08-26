@@ -6,20 +6,26 @@ import { GweiToUsdTransfer } from '../utils/parse';
 
 export async function handler(event: APIGatewayEvent, context: Context) {
 
-    const spotPrice = await GetSpotPrice();
+    const ethPrice = await GetSpotPrice();
     const results = await GetAllPrices();
     const average = results[results.length - 1];
     results.pop();
 
     const gas = {
         data: {
-            slow: average.low,
-            slowUsd: parseFloat(GweiToUsdTransfer(average.low, spotPrice)),
-            normal: average.average,
-            normalUsd: parseFloat(GweiToUsdTransfer(average.average, spotPrice)),
-            fast: average.fast,
-            fastUsd: parseFloat(GweiToUsdTransfer(average.fast, spotPrice)),
-            spotPrice,
+            slow: { 
+                gwei: average.low,
+                usd: parseFloat(GweiToUsdTransfer(average.low, ethPrice)),
+            },
+            normal: {
+                gwei: average.average,
+                usd: parseFloat(GweiToUsdTransfer(average.average, ethPrice)),
+            },
+            fast: {
+                gwei: average.fast,
+                usd: parseFloat(GweiToUsdTransfer(average.fast, ethPrice)),
+            },
+            ethPrice,
             lastUpdated: Date.now()
         },
         sources: results
