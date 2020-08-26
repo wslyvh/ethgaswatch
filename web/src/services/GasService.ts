@@ -92,6 +92,7 @@ export async function fromEtherscan(): Promise<RecommendedGasPrices> {
         fast: Math.round(Number(body.result.FastGasPrice)),
         average: Math.round(Number(body.result.ProposeGasPrice)),
         low: Math.round(Number(body.result.SafeGasPrice)),
+        lastBlock: Number(body.result.LastBlock)
     } as RecommendedGasPrices;
 }
 
@@ -106,6 +107,7 @@ export async function fromGasStation(): Promise<RecommendedGasPrices> {
         fast: Math.round(body.fastest / 10),
         average: Math.round(body.average / 10),
         low: Math.round(body.safeLow / 10),
+        lastBlock: Number(body.blockNum)
     } as RecommendedGasPrices;
 }
 
@@ -120,6 +122,7 @@ export async function fromGasNow(): Promise<RecommendedGasPrices> {
         fast: Math.round(WeiToGwei(body.data.top50)),
         average: Math.round(WeiToGwei(body.data.top200)),
         low: Math.round(WeiToGwei(body.data.top400)),
+        lastUpdate: Number(body.data.timestamp)
     } as RecommendedGasPrices;
 }
 
@@ -130,10 +133,11 @@ export async function fromMyCrypto(): Promise<RecommendedGasPrices> {
 
     return {
         name: "MyCrypto",
-        source: "https://www.mycrypto.com/",
+        source: "https://gas.mycryptoapi.com/",
         fast: Math.round(body.fastest),
         average: Math.round(body.standard),
         low: Math.round(body.safeLow),
+        lastBlock: Number(body.blockNum)
     } as RecommendedGasPrices;
 }
 
@@ -148,6 +152,7 @@ export async function fromUpvest(): Promise<RecommendedGasPrices> {
         fast: Math.round(body.estimates.fastest),
         average: Math.round(body.estimates.medium),
         low: Math.round(body.estimates.slow),
+        lastUpdate: Date.now()
     } as RecommendedGasPrices;
 }
 

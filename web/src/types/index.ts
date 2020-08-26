@@ -4,6 +4,8 @@ export type RecommendedGasPrices = {
     fast: number;
     average: number;
     low: number;
+    lastBlock?: number;
+    lastUpdate?: number;
 }
 
 export type RegisteredEmailAddress = { 
