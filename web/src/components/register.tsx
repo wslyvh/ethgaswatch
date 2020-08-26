@@ -22,8 +22,8 @@ export const Register = () => {
             setError("");
 
             const body = {
-                email,
-                gasprice
+                email: email.trim(),
+                gasprice: gasprice.trim()
             };
 
             try { 
