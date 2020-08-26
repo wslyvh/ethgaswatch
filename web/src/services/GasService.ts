@@ -25,6 +25,12 @@ export async function GetAllPrices(): Promise<RecommendedGasPrices[]> {
         console.log("Couldn't retrieve data from GASNOW", ex);
     }
     try {
+        const prices = await fromMyCrypto();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from MyCrypto", ex);
+    }
+    try {
         const prices = await fromUpvest();
         results.push(prices);
     } catch (ex) { 
@@ -57,6 +63,12 @@ export async function GetAveragePrice(): Promise<RecommendedGasPrices> {
         results.push(prices);
     } catch (ex) { 
         console.log("Couldn't retrieve data from GASNOW", ex);
+    }
+    try {
+        const prices = await fromMyCrypto();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from MyCrypto", ex);
     }
     try {
         const prices = await fromUpvest();
@@ -107,6 +119,20 @@ export async function fromGasNow(): Promise<RecommendedGasPrices> {
         fast: Math.round(WeiToGwei(body.data.top50)),
         average: Math.round(WeiToGwei(body.data.top200)),
         low: Math.round(WeiToGwei(body.data.top400)),
+    } as RecommendedGasPrices;
+}
+
+export async function fromMyCrypto(): Promise<RecommendedGasPrices> { 
+    
+    const response = await fetch(`https://gas.mycryptoapi.com/`);
+    const body = await response.json();
+
+    return {
+        name: "MyCrypto",
+        source: "https://www.mycrypto.com/",
+        fast: Math.round(body.fastest),
+        average: Math.round(body.standard),
+        low: Math.round(body.safeLow),
     } as RecommendedGasPrices;
 }
 
