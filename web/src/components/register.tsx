@@ -5,7 +5,7 @@ export const Register = () => {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
     const [email, setEmail] = useState("");
-    const [gasprice, setGasprice] = useState("30");
+    const [gasprice, setGasprice] = useState("");
 
     const registerEmail = async () => {
 
@@ -14,9 +14,9 @@ export const Register = () => {
             setMessage("");
             setError("Email not valid");
         }
-        else if (isNaN(parseInt(gasprice))) {
+        else if (isNaN(parseInt(gasprice)) || parseInt(gasprice) <= 0) {
             setMessage("");
-            setError("No valid gasprice. Only use numbers")
+            setError("No valid gasprice. Please use a number >0")
         }
         else {
             setError("");
@@ -66,7 +66,7 @@ export const Register = () => {
                 </div>
 
                 <div className="input-group input-group-sm w-50 mx-auto">
-                    <input type="text" className="form-control" placeholder="Gas price" aria-label="Gasprice" 
+                    <input type="text" className="form-control" placeholder="Gas price in gwei (e.g. 50)" aria-label="Gasprice" 
                         value={gasprice} onChange={e => setGasprice(e.target.value)} />
                         <div className="input-group-append">
                             <button className="btn btn-outline-secondary" type="button" id="button-register" onClick={() => registerEmail()}>watch</button>
