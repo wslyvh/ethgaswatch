@@ -46,8 +46,8 @@ export async function GetAllPrices(includeAverage?: boolean): Promise<Recommende
     }
 
     if (includeAverage) {
-        const prices = Average(results);
-        results.push(prices);
+        const medianPrices = Average(results, true);
+        results.push(medianPrices);
     }
 
     return results;
@@ -58,7 +58,7 @@ export async function GetAveragePrice(): Promise<RecommendedGasPrices> {
     const results = await GetAllPrices(true);
     const avg = results.find(i => i.name === AVERAGE_NAME)
 
-    return Average(results);
+    return Average(results, true);
 }
 
 export async function fromEtherscan(): Promise<RecommendedGasPrices> { 
@@ -151,11 +151,17 @@ export async function fromUpvest(): Promise<RecommendedGasPrices> {
     } as RecommendedGasPrices;
 }
 
-export function Average(prices: RecommendedGasPrices[]) : RecommendedGasPrices { 
+export function Average(prices: RecommendedGasPrices[], median: boolean) : RecommendedGasPrices { 
 
-    var fast = prices.filter(i => i.fast > 0).map(i => i.fast).reduce((a, v) => a + v) / prices.filter(i => i.fast > 0).length;
-    var average = prices.filter(i => i.average > 0).map(i => i.average).reduce((a, v) => a + v) / prices.filter(i => i.average > 0).length;
-    var low = prices.filter(i => i.low > 0).map(i => i.low).reduce((a, v) => a + v) / prices.filter(i => i.low > 0).length;
+    if (median) {
+        var fast = GetMedian(prices.filter(i => i.fast > 0).map(i => i.fast));
+        var average = GetMedian(prices.filter(i => i.average > 0).map(i => i.average));
+        var low = GetMedian(prices.filter(i => i.low > 0).map(i => i.low));
+    } else { 
+        var fast = GetAverage(prices.filter(i => i.fast > 0).map(i => i.fast));
+        var average = GetAverage(prices.filter(i => i.average > 0).map(i => i.average));
+        var low = GetAverage(prices.filter(i => i.low > 0).map(i => i.low));
+    }
 
     return {
         name: AVERAGE_NAME,
@@ -163,4 +169,16 @@ export function Average(prices: RecommendedGasPrices[]) : RecommendedGasPrices {
         average: Math.round(average),
         low: Math.round(low),
     } as RecommendedGasPrices;
+}
+
+export function GetAverage(values: number[]): number { 
+    
+    return values.reduce((a, v) => a + v) / values.length;
+}
+
+export function GetMedian(values: number[]): number { 
+    const fastPrices = values.sort();
+    const fastMid = Math.ceil(fastPrices.length / 2);
+
+    return fastPrices.length % 2 == 0 ? (fastPrices[fastMid] + fastPrices[fastMid - 1]) / 2 : fastPrices[fastMid - 1];
 }
