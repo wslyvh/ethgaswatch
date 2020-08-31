@@ -3,7 +3,7 @@ import { Context, APIGatewayEvent } from 'aws-lambda'
 import { GetAllPrices } from '../services/GasService';
 
 export async function handler(event: APIGatewayEvent, context: Context) {
-    const results = await GetAllPrices();
+    const results = await GetAllPrices(true);
 
     return {
         statusCode: 200,

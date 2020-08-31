@@ -7,7 +7,7 @@ import { GweiToUsdTransfer } from '../utils/parse';
 export async function handler(event: APIGatewayEvent, context: Context) {
 
     const ethPrice = await GetSpotPrice();
-    const results = await GetAllPrices();
+    const results = await GetAllPrices(true);
     const average = results[results.length - 1];
     results.pop();
 

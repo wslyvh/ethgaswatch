@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { RecommendedGasPrices } from '../types';
 import { Alert, GasPriceRow, GasTableRow, Loading } from './';
+import { AVERAGE_NAME } from '../utils/constants';
 
 export const GasTable = () => {
     const [loading, setLoading] = useState(true);
@@ -12,7 +13,7 @@ export const GasTable = () => {
             try {
                 const response = await fetch(`/.netlify/functions/prices`);
                 const body = await response.json() as RecommendedGasPrices[];
-                const avg = body.find(i => i.name === "AVERAGE");
+                const avg = body.find(i => i.name === AVERAGE_NAME);
 
                 setAveragePrice(avg);
                 setGasPrices(body);

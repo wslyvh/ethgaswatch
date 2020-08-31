@@ -2,9 +2,10 @@ import fetch from 'node-fetch';
 import { RecommendedGasPrices } from "../types";
 import { AppConfig } from "../config/app";
 import { WeiToGwei } from '../utils/parse';
+import { AVERAGE_NAME } from '../utils/constants';
 require('encoding');
 
-export async function GetAllPrices(): Promise<RecommendedGasPrices[]> { 
+export async function GetAllPrices(includeAverage?: boolean): Promise<RecommendedGasPrices[]> { 
 
     const results = new Array<RecommendedGasPrices>();
     try {
@@ -19,6 +20,12 @@ export async function GetAllPrices(): Promise<RecommendedGasPrices[]> {
     } catch (ex) { 
         console.log("Couldn't retrieve data from ETHERSCAN", ex);
     }
+    try {
+        const prices = await fromEtherchain();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from ETHERCHAIN", ex);
+    }    
     try {
         const prices = await fromGasNow();
         results.push(prices);
@@ -38,45 +45,18 @@ export async function GetAllPrices(): Promise<RecommendedGasPrices[]> {
         console.log("Couldn't retrieve data from UPVEST", ex);
     }
 
-    const prices = Average(results);
-    results.push(prices);
+    if (includeAverage) {
+        const prices = Average(results);
+        results.push(prices);
+    }
 
     return results;
 }
 
 export async function GetAveragePrice(): Promise<RecommendedGasPrices> { 
 
-    const results = new Array<RecommendedGasPrices>();
-    try {
-        const prices = await fromGasStation();
-        results.push(prices);
-    } catch (ex) { 
-        console.log("Couldn't retrieve data from GAS STATION", ex);
-    }
-    try {
-        const prices = await fromEtherscan();
-        results.push(prices);
-    } catch (ex) { 
-        console.log("Couldn't retrieve data from ETHERSCAN", ex);
-    }
-    try {
-        const prices = await fromGasNow();
-        results.push(prices);
-    } catch (ex) { 
-        console.log("Couldn't retrieve data from GASNOW", ex);
-    }
-    try {
-        const prices = await fromMyCrypto();
-        results.push(prices);
-    } catch (ex) { 
-        console.log("Couldn't retrieve data from MyCrypto", ex);
-    }
-    try {
-        const prices = await fromUpvest();
-        results.push(prices);
-    } catch (ex) { 
-        console.log("Couldn't retrieve data from UPVEST", ex);
-    }
+    const results = await GetAllPrices(true);
+    const avg = results.find(i => i.name === AVERAGE_NAME)
 
     return Average(results);
 }
@@ -93,6 +73,21 @@ export async function fromEtherscan(): Promise<RecommendedGasPrices> {
         average: Math.round(Number(body.result.ProposeGasPrice)),
         low: Math.round(Number(body.result.SafeGasPrice)),
         lastBlock: Number(body.result.LastBlock)
+    } as RecommendedGasPrices;
+}
+
+export async function fromEtherchain(): Promise<RecommendedGasPrices> { 
+
+    const response = await fetch(`https://www.etherchain.org/api/gasPriceOracle`);
+    const body = await response.json();
+
+    return {
+        name: "Etherchain",
+        source: "https://etherchain.org/tools/gasPriceOracle",
+        fast: Number(body.fast),
+        average: Number(body.standard),
+        low: Number(body.safeLow),
+        lastUpdate: Date.now()
     } as RecommendedGasPrices;
 }
 
@@ -163,7 +158,7 @@ export function Average(prices: RecommendedGasPrices[]) : RecommendedGasPrices {
     var low = prices.filter(i => i.low > 0).map(i => i.low).reduce((a, v) => a + v) / prices.filter(i => i.low > 0).length;
 
     return {
-        name: "AVERAGE",
+        name: AVERAGE_NAME,
         fast: Math.round(fast),
         average: Math.round(average),
         low: Math.round(low),
