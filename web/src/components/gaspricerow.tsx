@@ -1,30 +1,19 @@
 
-import React, { useState, useEffect } from 'react';
-import { RecommendedGasPrices } from '../types';
+import React from 'react';
+import { GasPriceData } from '../types';
 import { GasPriceCard } from './';
 
-export const GasPriceRow = (props: RecommendedGasPrices) => {
-    const [spotPrice, setSpotPrice] = useState<number>();
+interface GasPriceRowProps { 
+    data: GasPriceData
+}
 
-    useEffect(() => {
-        async function asyncEffect() {
-            const response = await fetch(`/.netlify/functions/spot`);
-            const body = await response.json();
-
-            setSpotPrice(body);
-        }
-        
-        asyncEffect();
-    }, []);
-
-    if (!spotPrice) return <></>
-
+export const GasPriceRow = (props: GasPriceRowProps) => {
     return (
         <>
             <div className="card-columns mt-5">
-                <GasPriceCard title="Slow" price={props.low} spot={spotPrice} />
-                <GasPriceCard title="Normal" price={props.average} spot={spotPrice} />
-                <GasPriceCard title="Fast" price={props.fast} spot={spotPrice} />
+                <GasPriceCard title="Slow" values={props.data.slow} />
+                <GasPriceCard title="Normal" values={props.data.normal} />
+                <GasPriceCard title="Fast" values={props.data.fast} />
             </div>
         </>
     )

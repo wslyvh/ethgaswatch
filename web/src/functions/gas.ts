@@ -3,6 +3,7 @@ import { Context, APIGatewayEvent } from 'aws-lambda'
 import { GetAllPrices } from '../services/GasService';
 import { GetSpotPrice } from '../services/PriceService';
 import { GweiToUsdTransfer } from '../utils/parse';
+import { GasData } from '../types';
 
 export async function handler(event: APIGatewayEvent, context: Context) {
 
@@ -29,7 +30,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
             lastUpdated: Date.now()
         },
         sources: results
-    }
+    } as GasData;
 
     return {
         statusCode: 200,

@@ -1,5 +1,6 @@
 import React from 'react';
-import { GasTable, Register } from '../components/';
+import { Register } from '../components/';
+import { GasPrices } from '../components/gasprices';
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
 
       <div className="container">
         <Register />
-        <GasTable />
+        <GasPrices />
       </div>
 
       <footer className="footer">

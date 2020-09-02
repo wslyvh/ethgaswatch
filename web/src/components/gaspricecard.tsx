@@ -1,11 +1,10 @@
 
 import React from 'react';
-import { GweiToUsdTransfer } from '../utils/parse';
+import { GasPriceValues } from '../types';
 
 interface GasPriceProps { 
     title: string
-    price: number
-    spot: number
+    values: GasPriceValues
 }
 
 export const GasPriceCard = (props: GasPriceProps) => {
@@ -25,7 +24,7 @@ export const GasPriceCard = (props: GasPriceProps) => {
         <div className="card shadow-sm rounded">
             <h3 className="card-title">{props.title}</h3>
             <p className="card-text">
-                {props.price} gwei <small className="text-muted">${GweiToUsdTransfer(props.price, props.spot)}</small><br/>
+                {props.values.gwei} gwei <small className="text-muted">${props.values.usd}</small><br/>
                 <small>&lt;{waitTime} min</small>                
             </p>            
         </div>

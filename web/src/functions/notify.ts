@@ -14,6 +14,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
         array.findIndex(i => i.email === item.email) === index);
 
     await Promise.all(uniques.map(i => {
+        console.log("Notifying user", i.email);
         SendEmailNotification(i.email, i.id, i.price, currentPrice.low);
         UpdateUser(i.id, {
             "fields": {
@@ -24,6 +25,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
 
     const flaggedUsers = await GetUsers("Flagged", currentPrice.low);
     await Promise.all(flaggedUsers.map(i => {
+        console.log("Unflag user", i.email);
         UpdateUser(i.id, {
             "fields": {
                 "EmailSent": false

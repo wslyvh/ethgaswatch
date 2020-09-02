@@ -13,3 +13,21 @@ export type RegisteredEmailAddress = {
     email: string;
     price: number;
 }
+
+export type GasData = { 
+    data: GasPriceData,
+    sources: RecommendedGasPrices[]
+}
+
+export type GasPriceData = { 
+    slow: GasPriceValues,
+    normal: GasPriceValues,
+    fast: GasPriceValues,
+    ethPrice: number,
+    lastUpdated: number,
+}
+
+export type GasPriceValues = { 
+    gwei: number,
+    usd: number
+}
