@@ -39,6 +39,12 @@ export async function GetAllPrices(includeAverage?: boolean): Promise<Recommende
         console.log("Couldn't retrieve data from MyCrypto", ex);
     }
     try {
+        const prices = await fromPoaNetwork();
+        results.push(prices);
+    } catch (ex) { 
+        console.log("Couldn't retrieve data from POA Network", ex);
+    }
+    try {
         const prices = await fromUpvest();
         results.push(prices);
     } catch (ex) { 
@@ -135,6 +141,23 @@ export async function fromMyCrypto(): Promise<RecommendedGasPrices> {
         lastBlock: Number(body.blockNum)
     } as RecommendedGasPrices;
 }
+
+
+export async function fromPoaNetwork(): Promise<RecommendedGasPrices> { 
+    
+    const response = await fetch(`https://gasprice.poa.network/`);
+    const body = await response.json();
+
+    return {
+        name: "POA Network",
+        source: "https://gasprice.poa.network/",
+        fast: Math.round(body.fast),
+        average: Math.round(body.standard),
+        low: Math.round(body.slow),
+        lastBlock: Number(body.block_number)
+    } as RecommendedGasPrices;
+}
+
 
 export async function fromUpvest(): Promise<RecommendedGasPrices> { 
 
