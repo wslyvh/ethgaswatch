@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { GasData  } from '../types';
+import { GasPriceData  } from '../types';
 import { Alert, GasPriceRow, Loading } from './';
 import { GasTable } from './gastable';
 
 export const GasPrices = () => {
     const [loading, setLoading] = useState(true);
-    const [gasData, setGasData] = useState<GasData>();
+    const [gasData, setGasData] = useState<GasPriceData>();
 
     useEffect(() => {
         async function asyncEffect() {
             try {
                 const response = await fetch(`/.netlify/functions/gas`);
-                const body = await response.json() as GasData;
+                const body = await response.json() as GasPriceData;
 
                 setGasData(body);
             } catch (ex) { 
@@ -34,7 +34,7 @@ export const GasPrices = () => {
 
     return (
         <>
-            <GasPriceRow data={gasData.data} />
+            <GasPriceRow data={gasData} />
             <GasTable sources={gasData.sources} />
         </>
     );

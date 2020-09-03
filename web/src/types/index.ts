@@ -12,11 +12,10 @@ export type RegisteredEmailAddress = {
     id: string;
     email: string;
     price: number;
-}
-
-export type GasData = { 
-    data: GasPriceData,
-    sources: RecommendedGasPrices[]
+    confirmed?: boolean;
+    disabled?: boolean;
+    emailSent?: boolean;
+    lastModified?: number;
 }
 
 export type GasPriceData = { 
@@ -25,6 +24,7 @@ export type GasPriceData = {
     fast: GasPriceValues,
     ethPrice: number,
     lastUpdated: number,
+    sources: RecommendedGasPrices[]
 }
 
 export type GasPriceValues = { 

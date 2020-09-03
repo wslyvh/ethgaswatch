@@ -1,9 +1,12 @@
+import faunadb, { query } from "faunadb"
 import fetch from 'node-fetch';
-import { RecommendedGasPrices } from "../types";
+import { RecommendedGasPrices, GasPriceData } from "../types";
 import { AppConfig } from "../config/app";
 import { WeiToGwei } from '../utils/parse';
 import { AVERAGE_NAME } from '../utils/constants';
 require('encoding');
+
+const client = new faunadb.Client({ secret: AppConfig.FAUNADB_SECRET });
 
 export async function GetAllPrices(includeAverage?: boolean): Promise<RecommendedGasPrices[]> { 
     
@@ -184,7 +187,15 @@ export async function fromUpvest(): Promise<RecommendedGasPrices | null> {
     }
 }
 
-export function Average(prices: RecommendedGasPrices[], median: boolean) : RecommendedGasPrices { 
+export async function SaveGasData(data: GasPriceData) { 
+    try { 
+        await client.query(query.Create(query.Collection('gas'), { data } ));
+    } catch(ex) { 
+        console.log("Failed to save gas data", ex);
+    }
+}
+
+export function Average(prices: RecommendedGasPrices[], median: boolean): RecommendedGasPrices { 
 
     if (median) {
         var fast = GetMedian(prices.filter(i => i.fast > 0).map(i => i.fast));
