@@ -48,6 +48,7 @@ export async function fromEtherscan(): Promise<RecommendedGasPrices | null> {
         return {
             name: "Etherscan",
             source: "https://etherscan.io/gastracker",
+            // NO instant
             fast: Math.round(Number(body.result.FastGasPrice)),
             standard: Math.round(Number(body.result.ProposeGasPrice)),
             slow: Math.round(Number(body.result.SafeGasPrice)),
@@ -69,6 +70,7 @@ export async function fromEtherchain(): Promise<RecommendedGasPrices | null> {
         return {
             name: "Etherchain",
             source: "https://etherchain.org/tools/gasPriceOracle",
+            instant: Math.round(Number(body.fastest)),
             fast: Math.round(Number(body.fast)),
             standard: Math.round(Number(body.standard)),
             slow: Math.round(Number(body.safeLow)),
@@ -90,7 +92,8 @@ export async function fromGasStation(): Promise<RecommendedGasPrices | null> {
         return {
             name: "Gas station",
             source: "https://ethgasstation.info/",
-            fast: Math.round(body.fastest / 10),
+            instant: Math.round(body.fastest / 10),
+            fast: Math.round(body.fast / 10),
             standard: Math.round(body.average / 10),
             slow: Math.round(body.safeLow / 10),
             lastBlock: Number(body.blockNum)
@@ -111,6 +114,7 @@ export async function fromGasNow(): Promise<RecommendedGasPrices | null> {
         return {
             name: "GAS Now",
             source: "https://www.gasnow.org/",
+            instant: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 50).gasPrice)), // instant
             fast: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 200).gasPrice)), // 1 min
             standard: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 500).gasPrice)), // 3 min 
             slow: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 1000).gasPrice)), // > 10
@@ -132,7 +136,8 @@ export async function fromMyCrypto(): Promise<RecommendedGasPrices | null> {
         return {
             name: "MyCrypto",
             source: "https://gas.mycryptoapi.com/",
-            fast: Math.round(body.fastest),
+            instant: Math.round(body.fastest),
+            fast: Math.round(body.fast),
             standard: Math.round(body.standard),
             slow: Math.round(body.safeLow),
             lastBlock: Number(body.blockNum)
@@ -154,6 +159,7 @@ export async function fromPoaNetwork(): Promise<RecommendedGasPrices | null> {
         return {
             name: "POA Network",
             source: "https://gasprice.poa.network/",
+            instant: Math.round(body.instant),
             fast: Math.round(body.fast),
             standard: Math.round(body.standard),
             slow: Math.round(body.slow),
@@ -175,7 +181,8 @@ export async function fromUpvest(): Promise<RecommendedGasPrices | null> {
         return {
             name: "Upvest",
             source: "https://doc.upvest.co/reference#ethereum-fees",
-            fast: Math.round(body.estimates.fastest),
+            instant: Math.round(body.estimates.fastest),
+            fast: Math.round(body.estimates.fast),
             standard: Math.round(body.estimates.medium),
             slow: Math.round(body.estimates.slow),
             lastUpdate: Date.now()
@@ -198,10 +205,12 @@ export async function SaveGasData(data: GasPriceData) {
 export function Average(prices: RecommendedGasPrices[], median: boolean): RecommendedGasPrices { 
 
     if (median) {
+        var instant = GetMedian(prices.filter(i => i.instant > 0).map(i => i.instant));
         var fast = GetMedian(prices.filter(i => i.fast > 0).map(i => i.fast));
         var standard = GetMedian(prices.filter(i => i.standard > 0).map(i => i.standard));
         var slow = GetMedian(prices.filter(i => i.slow > 0).map(i => i.slow));
     } else { 
+        var instant = GetAverage(prices.filter(i => i.instant > 0).map(i => i.instant));
         var fast = GetAverage(prices.filter(i => i.fast > 0).map(i => i.fast));
         var standard = GetAverage(prices.filter(i => i.standard > 0).map(i => i.standard));
         var slow = GetAverage(prices.filter(i => i.slow > 0).map(i => i.slow));
@@ -209,6 +218,7 @@ export function Average(prices: RecommendedGasPrices[], median: boolean): Recomm
 
     return {
         name: AVERAGE_NAME,
+        instant: Math.round(instant),
         fast: Math.round(fast),
         standard: Math.round(standard),
         slow: Math.round(slow),
@@ -221,8 +231,8 @@ export function GetAverage(values: number[]): number {
 }
 
 export function GetMedian(values: number[]): number { 
-    const fastPrices = values.sort();
-    const fastMid = Math.ceil(fastPrices.length / 2);
+    const prices = values.sort();
+    const mid = Math.ceil(prices.length / 2);
 
-    return fastPrices.length % 2 == 0 ? (fastPrices[fastMid] + fastPrices[fastMid - 1]) / 2 : fastPrices[fastMid - 1];
+    return prices.length % 2 == 0 ? (prices[mid] + prices[mid - 1]) / 2 : prices[mid - 1];
 }

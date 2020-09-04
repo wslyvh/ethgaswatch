@@ -9,15 +9,18 @@ interface GasPriceProps {
 
 export const GasPriceCard = (props: GasPriceProps) => {
     
-    let waitTime = 0;
+    let waitTime = "";
+    if (props.title === "Instant") { 
+        waitTime = "few secs";
+    }
     if (props.title === "Fast") { 
-        waitTime = 2;
+        waitTime = "<2 min";
     }
     if (props.title === "Normal") { 
-        waitTime = 5;
+        waitTime = "<5 min";
     }
     if (props.title === "Slow") { 
-        waitTime = 30;
+        waitTime = "<30 min";
     }
 
     return (
@@ -25,7 +28,7 @@ export const GasPriceCard = (props: GasPriceProps) => {
             <h3 className="card-title">{props.title}</h3>
             <p className="card-text">
                 {props.values.gwei} gwei <small className="text-muted">${props.values.usd}</small><br/>
-                <small>&lt;{waitTime} min</small>                
+                <small>{waitTime}</small>                
             </p>            
         </div>
     )

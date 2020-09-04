@@ -1,6 +1,7 @@
 export type RecommendedGasPrices = { 
     name: string;
     source: string;
+    instant: number;
     fast: number;
     standard: number;
     slow: number;
@@ -22,6 +23,7 @@ export type GasPriceData = {
     slow: GasPriceValues,
     normal: GasPriceValues,
     fast: GasPriceValues,
+    instant: GasPriceValues,
     ethPrice: number,
     lastUpdated: number,
     sources: RecommendedGasPrices[]

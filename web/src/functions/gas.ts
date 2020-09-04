@@ -26,6 +26,10 @@ export async function handler(event: APIGatewayEvent, context: Context) {
             gwei: average.fast,
             usd: parseFloat(GweiToUsdTransfer(average.fast, ethPrice)),
         },
+        instant: {
+            gwei: average.instant,
+            usd: parseFloat(GweiToUsdTransfer(average.instant, ethPrice)),
+        },
         ethPrice,
         lastUpdated: Date.now(),
         sources: results
