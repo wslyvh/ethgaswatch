@@ -17,8 +17,8 @@ export const GasTableRow = (props: RecommendedGasPrices) => {
             <th scope="row" className="table-index">
                 {props.name} {renderSource}
             </th>
-            <td>{props.low}</td>
-            <td>{props.average}</td>
+            <td>{props.slow}</td>
+            <td>{props.standard}</td>
             <td>{props.fast}</td>
         </tr>
     )

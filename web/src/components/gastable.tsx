@@ -9,7 +9,7 @@ interface GasPriceTableProps {
 export const GasTable = (props: GasPriceTableProps) => {
 
     let renderTableRows = props.sources.map((member: RecommendedGasPrices, id: number) => 
-        <GasTableRow key={id} name={member.name} source={member.source} low={member.low} average={member.average} fast={member.fast} />
+        <GasTableRow key={id} name={member.name} source={member.source} slow={member.slow} standard={member.standard} fast={member.fast} />
     );
     
     return (

@@ -49,8 +49,8 @@ export async function fromEtherscan(): Promise<RecommendedGasPrices | null> {
             name: "Etherscan",
             source: "https://etherscan.io/gastracker",
             fast: Math.round(Number(body.result.FastGasPrice)),
-            average: Math.round(Number(body.result.ProposeGasPrice)),
-            low: Math.round(Number(body.result.SafeGasPrice)),
+            standard: Math.round(Number(body.result.ProposeGasPrice)),
+            slow: Math.round(Number(body.result.SafeGasPrice)),
             lastBlock: Number(body.result.LastBlock)
         } as RecommendedGasPrices;
 
@@ -69,9 +69,9 @@ export async function fromEtherchain(): Promise<RecommendedGasPrices | null> {
         return {
             name: "Etherchain",
             source: "https://etherchain.org/tools/gasPriceOracle",
-            fast: Number(body.fast),
-            average: Number(body.standard),
-            low: Number(body.safeLow),
+            fast: Math.round(Number(body.fast)),
+            standard: Math.round(Number(body.standard)),
+            slow: Math.round(Number(body.safeLow)),
             lastUpdate: Date.now()
         } as RecommendedGasPrices;
 
@@ -91,8 +91,8 @@ export async function fromGasStation(): Promise<RecommendedGasPrices | null> {
             name: "Gas station",
             source: "https://ethgasstation.info/",
             fast: Math.round(body.fastest / 10),
-            average: Math.round(body.average / 10),
-            low: Math.round(body.safeLow / 10),
+            standard: Math.round(body.average / 10),
+            slow: Math.round(body.safeLow / 10),
             lastBlock: Number(body.blockNum)
         } as RecommendedGasPrices;
 
@@ -112,8 +112,8 @@ export async function fromGasNow(): Promise<RecommendedGasPrices | null> {
             name: "GAS Now",
             source: "https://www.gasnow.org/",
             fast: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 200).gasPrice)), // 1 min
-            average: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 500).gasPrice)), // 3 min 
-            low: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 1000).gasPrice)), // > 10
+            standard: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 500).gasPrice)), // 3 min 
+            slow: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 1000).gasPrice)), // > 10
             lastUpdate: Number(body.data.timestamp)
         } as RecommendedGasPrices;
 
@@ -133,8 +133,8 @@ export async function fromMyCrypto(): Promise<RecommendedGasPrices | null> {
             name: "MyCrypto",
             source: "https://gas.mycryptoapi.com/",
             fast: Math.round(body.fastest),
-            average: Math.round(body.standard),
-            low: Math.round(body.safeLow),
+            standard: Math.round(body.standard),
+            slow: Math.round(body.safeLow),
             lastBlock: Number(body.blockNum)
         } as RecommendedGasPrices;
 
@@ -155,8 +155,8 @@ export async function fromPoaNetwork(): Promise<RecommendedGasPrices | null> {
             name: "POA Network",
             source: "https://gasprice.poa.network/",
             fast: Math.round(body.fast),
-            average: Math.round(body.standard),
-            low: Math.round(body.slow),
+            standard: Math.round(body.standard),
+            slow: Math.round(body.slow),
             lastBlock: Number(body.block_number)
         } as RecommendedGasPrices;
 
@@ -176,8 +176,8 @@ export async function fromUpvest(): Promise<RecommendedGasPrices | null> {
             name: "Upvest",
             source: "https://doc.upvest.co/reference#ethereum-fees",
             fast: Math.round(body.estimates.fastest),
-            average: Math.round(body.estimates.medium),
-            low: Math.round(body.estimates.slow),
+            standard: Math.round(body.estimates.medium),
+            slow: Math.round(body.estimates.slow),
             lastUpdate: Date.now()
         } as RecommendedGasPrices;
 
@@ -199,19 +199,19 @@ export function Average(prices: RecommendedGasPrices[], median: boolean): Recomm
 
     if (median) {
         var fast = GetMedian(prices.filter(i => i.fast > 0).map(i => i.fast));
-        var average = GetMedian(prices.filter(i => i.average > 0).map(i => i.average));
-        var low = GetMedian(prices.filter(i => i.low > 0).map(i => i.low));
+        var standard = GetMedian(prices.filter(i => i.standard > 0).map(i => i.standard));
+        var slow = GetMedian(prices.filter(i => i.slow > 0).map(i => i.slow));
     } else { 
         var fast = GetAverage(prices.filter(i => i.fast > 0).map(i => i.fast));
-        var average = GetAverage(prices.filter(i => i.average > 0).map(i => i.average));
-        var low = GetAverage(prices.filter(i => i.low > 0).map(i => i.low));
+        var standard = GetAverage(prices.filter(i => i.standard > 0).map(i => i.standard));
+        var slow = GetAverage(prices.filter(i => i.slow > 0).map(i => i.slow));
     }
 
     return {
         name: AVERAGE_NAME,
         fast: Math.round(fast),
-        average: Math.round(average),
-        low: Math.round(low),
+        standard: Math.round(standard),
+        slow: Math.round(slow),
     } as RecommendedGasPrices;
 }
 

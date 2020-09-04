@@ -2,8 +2,8 @@ export type RecommendedGasPrices = {
     name: string;
     source: string;
     fast: number;
-    average: number;
-    low: number;
+    standard: number;
+    slow: number;
     lastBlock?: number;
     lastUpdate?: number;
 }

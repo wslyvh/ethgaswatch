@@ -6,6 +6,8 @@ import { GasPriceData } from '../types';
 
 export async function handler(event: APIGatewayEvent, context: Context) {
 
+    // TODO: Get from FaunDB, collection gas, where timestamp is highest 
+
     const ethPrice = await GetSpotPrice();
     const results = await GetAllPrices(true);
     const average = results[results.length - 1];
@@ -13,12 +15,12 @@ export async function handler(event: APIGatewayEvent, context: Context) {
 
     const data = {
         slow: { 
-            gwei: average.low,
-            usd: parseFloat(GweiToUsdTransfer(average.low, ethPrice)),
+            gwei: average.slow,
+            usd: parseFloat(GweiToUsdTransfer(average.slow, ethPrice)),
         },
         normal: {
-            gwei: average.average,
-            usd: parseFloat(GweiToUsdTransfer(average.average, ethPrice)),
+            gwei: average.standard,
+            usd: parseFloat(GweiToUsdTransfer(average.standard, ethPrice)),
         },
         fast: {
             gwei: average.fast,
