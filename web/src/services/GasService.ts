@@ -105,15 +105,15 @@ export async function fromGasStation(): Promise<RecommendedGasPrices | null> {
 export async function fromGasNow(): Promise<RecommendedGasPrices | null> { 
 
     try { 
-        const response = await fetch(`https://www.gasnow.org/api/v1/gas/price`);
+        const response = await fetch(`https://www.gasnow.org/api/v2/gas/price`);
         const body = await response.json();
 
         return {
             name: "GAS Now",
             source: "https://www.gasnow.org/",
-            fast: Math.round(WeiToGwei(body.data.top50)),
-            average: Math.round(WeiToGwei(body.data.top200)),
-            low: Math.round(WeiToGwei(body.data.top400)),
+            fast: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 200).gasPrice)), // 1 min
+            average: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 500).gasPrice)), // 3 min 
+            low: Math.round(WeiToGwei(body.data.list.find((i: any) => i.index === 1000).gasPrice)), // > 10
             lastUpdate: Number(body.data.timestamp)
         } as RecommendedGasPrices;
 
