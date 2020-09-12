@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GasPriceData  } from '../types';
+import { TimestampToTimeAgo } from '../utils/parse';
 import { Alert, GasPriceRow, Loading } from './';
 import { GasTable } from './gastable';
 
@@ -35,6 +36,10 @@ export const GasPrices = () => {
     return (
         <>
             <GasPriceRow data={gasData} />
+            <div className="float-right">
+                <small className="text-muted">Last update: {TimestampToTimeAgo(gasData.lastUpdated)}</small>
+            </div>
+            <br/>
             <GasTable sources={gasData.sources} />
         </>
     );
