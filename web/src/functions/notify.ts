@@ -1,21 +1,22 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
 import { GetUsers, UpdateUser } from '../services/AirtableService';
 import { SendEmailNotification } from '../services/EmailService';
-import { GetAveragePrice } from '../services/GasService';
+import { GetLatestGasData } from '../services/GasService';
 import { RegisteredEmailAddress } from '../types';
 
 export async function handler(event: APIGatewayEvent, context: Context) {
     
-    const currentPrice = await GetAveragePrice();
-    console.log("Current average low", currentPrice.low);
+    const data = await GetLatestGasData();
+    const safeLow = data.slow.gwei;
+    console.log("Current avg safeLow", safeLow);
 
-    const activeUsers = await GetUsers("Active", currentPrice.low);
+    const activeUsers = await GetUsers("Active", safeLow);
     const uniques = activeUsers.filter((item: RegisteredEmailAddress, index: number, array: RegisteredEmailAddress[]) => 
         array.findIndex(i => i.email === item.email) === index);
 
     await Promise.all(uniques.map(i => {
         console.log("Notifying user", i.email);
-        SendEmailNotification(i.email, i.id, i.price, currentPrice.low);
+        SendEmailNotification(i.email, i.id, i.price, safeLow);
         UpdateUser(i.id, {
             "fields": {
                 "EmailSent": true
@@ -23,7 +24,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
         })
     }));
 
-    const flaggedUsers = await GetUsers("Flagged", currentPrice.low);
+    const flaggedUsers = await GetUsers("Flagged", safeLow);
     await Promise.all(flaggedUsers.map(i => {
         console.log("Unflag user", i.email);
         UpdateUser(i.id, {

@@ -30,7 +30,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
         sources: results
     } as GasPriceData;
     
-    SaveGasData(data);
+    await SaveGasData(data);
 
     return {
         statusCode: 200,

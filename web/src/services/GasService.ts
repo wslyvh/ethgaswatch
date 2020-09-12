@@ -1,12 +1,13 @@
-import faunadb, { query } from "faunadb"
+require('encoding');
+require('mongodb-client-encryption');
+const MongoClient = require('mongodb').MongoClient;
 import fetch from 'node-fetch';
 import { RecommendedGasPrices, GasPriceData } from "../types";
 import { AppConfig } from "../config/app";
 import { WeiToGwei } from '../utils/parse';
 import { AVERAGE_NAME } from '../utils/constants';
-require('encoding');
 
-const client = new faunadb.Client({ secret: AppConfig.FAUNADB_SECRET });
+const db_collection = "gasdata"
 
 export async function GetAllPrices(includeAverage?: boolean): Promise<RecommendedGasPrices[]> { 
     
@@ -194,9 +195,29 @@ export async function fromUpvest(): Promise<RecommendedGasPrices | null> {
     }
 }
 
-export async function SaveGasData(data: GasPriceData) { 
+export async function GetLatestGasData(): Promise<GasPriceData | null> { 
     try { 
-        await client.query(query.Create(query.Collection('gas'), { data } ));
+        const dbCollection = await getDatabaseCollection();
+        const items = await dbCollection.find().sort({ _id: -1 }).limit(1).toArray();
+
+        if (items && items.length === 1) { 
+            return items[0].data as GasPriceData;
+        }
+
+        return null;
+
+    } catch(ex) { 
+        console.log("Failed to retrieve gas data", ex);
+        return null
+    }
+}
+
+export async function SaveGasData(data: GasPriceData) { 
+
+    try { 
+        const dbCollection = await getDatabaseCollection();
+        
+        await dbCollection.insertOne({ data });
     } catch(ex) { 
         console.log("Failed to save gas data", ex);
     }
@@ -235,4 +256,10 @@ export function GetMedian(values: number[]): number {
     const mid = Math.ceil(prices.length / 2);
 
     return prices.length % 2 == 0 ? (prices[mid] + prices[mid - 1]) / 2 : prices[mid - 1];
+}
+
+async function getDatabaseCollection(): Promise<any> { 
+    const client = await MongoClient.connect(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
+    const db = client.db(AppConfig.MONGODB_DB);
+    return db.collection(db_collection); 
 }

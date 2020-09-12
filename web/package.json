@@ -14,11 +14,13 @@
     "bootstrap": "^4.5.2",
     "dotenv": "^8.2.0",
     "encoding": "^0.1.13",
-    "faunadb": "^3.0.1",
     "http-proxy-middleware": "^1.0.5",
+    "mongodb": "^3.6.2",
+    "mongodb-client-encryption": "^1.1.0",
     "node-fetch": "^2.6.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "saslprep": "^1.0.3"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.10.4",
