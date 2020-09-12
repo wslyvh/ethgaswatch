@@ -23,6 +23,10 @@ export const GasPriceCard = (props: GasPriceProps) => {
         waitTime = "<30 min";
     }
 
+    if (!props.values) { 
+        return <></>
+    }
+    
     return (
         <div className="card shadow-sm rounded">
             <h3 className="card-title">{props.title}</h3>
