@@ -49,8 +49,8 @@ export const GasPriceCard = (props: GasPriceProps) => {
     
     return (
         
-        <div className="card">
-          <div className="card-body text-center">
+        <div className="card text-center m-2">
+          <div className="card-body">
             <h3 className="card-title text-muted text-uppercase">{props.title}</h3>
             <h4 className="card-price">{props.values.gwei} <span className="period">gwei</span></h4>
             <h5>${props.values.usd}</h5>
@@ -60,13 +60,5 @@ export const GasPriceCard = (props: GasPriceProps) => {
             </div>
           </div>
         </div>
-
-        // <div className="card shadow-sm rounded">
-        //     <h3 className="card-title"></h3>
-        //     <p className="card-text">
-        //          <small className="text-muted">${props.values.usd}</small><br/>
-        //         <small></small>                
-        //     </p>            
-        // </div>
     )
 }
