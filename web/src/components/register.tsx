@@ -54,8 +54,8 @@ export const Register = () => {
 
     return (
         <>
-        <div className="mt-5">
-            <p>Get notified when gas prices drop below the threshold.</p>
+        <div className="mt-4">
+            <p>Get notified when the Ethereum gas prices drops.</p>
             
             {renderAlertMessage}
 

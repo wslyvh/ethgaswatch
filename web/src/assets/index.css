@@ -14,18 +14,22 @@ body {
 }
 
 h1 { 
-  font-size: 1.5em;
+  font-size: 2em;
 }
 
 h2 { 
-  font-size: 1.17em;
+  font-size: 1.5em;
 }
 
 h3 { 
-  font-size: 1em;
+  font-size: 1.17em;
 }
 
 h4 { 
+  font-size: 1em;
+}
+
+h5 { 
   font-size: .83em;
 }
 
@@ -42,9 +46,29 @@ table, tr, td {
 }
 
 .card { 
+  border: none;
   background: #393F4D;
-  border: 1px solid #1D1E22;
   padding: 5px;
+  border-radius: 1rem;
+  transition: all 0.2s;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  letter-spacing: .1rem;
+  font-weight: bold;
+}
+
+.card-price {
+  font-size: 1.5rem;
+}
+
+.period {
+  font-size: 1rem;
+}
+
+.card-icon { 
+  font-size: 1.5em;
 }
 
 /* 

@@ -8,19 +8,39 @@ interface GasPriceProps {
 }
 
 export const GasPriceCard = (props: GasPriceProps) => {
-    
-    let waitTime = "";
-    if (props.title === "Instant") { 
-        waitTime = "few secs";
+
+    function waitTime(title: string): string { 
+        if (title === "Instant") { 
+            return "few secs";
+        }
+        if (title === "Fast") { 
+            return "<2 min";
+        }
+        if (title === "Normal") { 
+            return "<5 min";
+        }
+        if (title === "Slow") { 
+            return "<30 min";
+        }
+
+        return "";
     }
-    if (props.title === "Fast") { 
-        waitTime = "<2 min";
-    }
-    if (props.title === "Normal") { 
-        waitTime = "<5 min";
-    }
-    if (props.title === "Slow") { 
-        waitTime = "<30 min";
+
+    function speedIcon(title: string): string { 
+        if (title === "Instant") { 
+            return "⚡";
+        }
+        if (title === "Fast") { 
+            return "🚀";
+        }
+        if (title === "Normal") { 
+            return "⏳";
+        }
+        if (title === "Slow") { 
+            return "🐌";
+        }
+
+        return "";
     }
 
     if (!props.values) { 
@@ -28,12 +48,25 @@ export const GasPriceCard = (props: GasPriceProps) => {
     }
     
     return (
-        <div className="card shadow-sm rounded">
-            <h3 className="card-title">{props.title}</h3>
-            <p className="card-text">
-                {props.values.gwei} gwei <small className="text-muted">${props.values.usd}</small><br/>
-                <small>{waitTime}</small>                
-            </p>            
+        
+        <div className="card">
+          <div className="card-body text-center">
+            <h3 className="card-title text-muted text-uppercase">{props.title}</h3>
+            <h4 className="card-price">{props.values.gwei} <span className="period">gwei</span></h4>
+            <h5>${props.values.usd}</h5>
+            <h5 className="text-muted">{waitTime(props.title)}</h5>
+            <div>
+                <span className="card-icon" role="img" aria-label={props.title}>{speedIcon(props.title)}</span>
+            </div>
+          </div>
         </div>
+
+        // <div className="card shadow-sm rounded">
+        //     <h3 className="card-title"></h3>
+        //     <p className="card-text">
+        //          <small className="text-muted">${props.values.usd}</small><br/>
+        //         <small></small>                
+        //     </p>            
+        // </div>
     )
 }
