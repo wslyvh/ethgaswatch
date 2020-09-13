@@ -24,6 +24,12 @@ export const GasPrices = () => {
         
         asyncEffect();
     }, []);
+
+    useEffect(() => {
+        if (gasData) { 
+            document.title = `ETH Gas.watch | ${gasData.slow.gwei} gwei`
+        }
+    }, [gasData]);
     
     if (loading) { 
         return <Loading />
