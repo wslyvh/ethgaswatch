@@ -33,3 +33,10 @@ export type GasPriceValues = {
     gwei: number,
     usd: number
 }
+
+export type AlertsData = { 
+    alerts: number,
+    unique: number,
+    average: number,
+    mode: number,
+}
