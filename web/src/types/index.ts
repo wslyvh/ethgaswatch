@@ -40,3 +40,11 @@ export type AlertsData = {
     average: number,
     mode: number,
 }
+
+export type TrendChartData = {
+    labels: Array<string>,
+    slow: Array<number>,
+    normal: Array<number>,
+    fast: Array<number>,
+    instant: Array<number>
+}
