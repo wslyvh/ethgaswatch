@@ -5,7 +5,6 @@ import { Line } from 'react-chartjs-2';
 
 export const GasChart = () => {
     const [loading, setLoading] = useState(true);
-    const [trendChartData, setTrendChartData] = useState<TrendChartData>();
     const [chartData, setChartData] = useState<any>();
 
     useEffect(() => {
@@ -13,7 +12,7 @@ export const GasChart = () => {
             try {
                 const response = await fetch(`/.netlify/functions/trend?days=10`);
                 const body = await response.json() as TrendChartData;
-
+                
                 const chartData = {
                     labels: body.labels,
                     datasets: [{
@@ -48,7 +47,6 @@ export const GasChart = () => {
                     }
                 };
 
-                setTrendChartData(body);
                 setChartData(chartData);
             } catch (ex) { 
                 console.log("Couldn't retrieve gas chart data", ex);
