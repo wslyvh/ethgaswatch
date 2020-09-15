@@ -69,7 +69,8 @@ export const GasChart = () => {
     } 
 
     return (
-        <div>
+        <div className="mt-3">
+            <h3>Daily average gas prices</h3>
             <Line data={chartData} options={chartData.options} />
         </div>
     );
