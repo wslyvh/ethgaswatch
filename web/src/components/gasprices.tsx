@@ -27,7 +27,7 @@ export const GasPrices = () => {
 
     useEffect(() => {
         if (gasData) { 
-            document.title = `ETH Gas.watch | ${gasData.slow.gwei} gwei`
+            document.title = `ETH Gas.watch | ${gasData.normal.gwei} gwei`
         }
     }, [gasData]);
     

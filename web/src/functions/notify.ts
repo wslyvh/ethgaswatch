@@ -7,16 +7,16 @@ import { RegisteredEmailAddress } from '../types';
 export async function handler(event: APIGatewayEvent, context: Context) {
     
     const data = await GetLatestGasData();
-    const safeLow = data.slow.gwei;
-    console.log("Current avg safeLow", safeLow);
+    const normal = data.normal.gwei;
+    console.log("Current avg normal", normal);
 
-    const activeUsers = await GetUsers("Active", safeLow);
+    const activeUsers = await GetUsers("Active", normal);
     const uniques = activeUsers.filter((item: RegisteredEmailAddress, index: number, array: RegisteredEmailAddress[]) => 
         array.findIndex(i => i.email === item.email) === index);
 
     await Promise.all(uniques.map(i => {
         console.log("Notifying user", i.email);
-        SendEmailNotification(i.email, i.id, i.price, safeLow);
+        SendEmailNotification(i.email, i.id, i.price, normal);
         UpdateUser(i.id, {
             "fields": {
                 "EmailSent": true
@@ -24,7 +24,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
         })
     }));
 
-    const flaggedUsers = await GetUsers("Flagged", safeLow);
+    const flaggedUsers = await GetUsers("Flagged", normal);
     await Promise.all(flaggedUsers.map(i => {
         console.log("Unflag user", i.email);
         UpdateUser(i.id, {
