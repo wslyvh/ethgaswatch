@@ -4,7 +4,7 @@ import { AlertStats, GasChart } from '../components';
 function Stats() {
   return (
     <div className="container">
-      <AlertStats />
+      {/* <AlertStats /> */}
       <GasChart />
     </div>
   );

@@ -5,12 +5,13 @@ import { Line } from 'react-chartjs-2';
 
 export const GasChart = () => {
     const [loading, setLoading] = useState(true);
+    const [timePeriod, setTimePeriod] = useState(7);
     const [chartData, setChartData] = useState<any>();
 
     useEffect(() => {
         async function asyncEffect() {
             try {
-                const response = await fetch(`/.netlify/functions/trend?days=10`);
+                const response = await fetch(`/.netlify/functions/trend?days=${timePeriod}`);
                 const body = await response.json() as TrendChartData;
                 
                 const chartData = {
@@ -56,7 +57,7 @@ export const GasChart = () => {
         }
         
         asyncEffect();
-    }, []);
+    }, [timePeriod]);
     
     if (loading) { 
         return <Loading />
@@ -68,8 +69,19 @@ export const GasChart = () => {
 
     return (
         <div className="mt-3">
-            <h3>Daily average gas prices</h3>
-            <Line data={chartData} options={chartData.options} />
+            <h2>Daily average gas prices</h2>
+
+            <div className="input-group input-group-sm col-6 col-sm-4 mb-3 float-right">
+                <select className="custom-select" id="inputPeriodSelector" value={timePeriod} onChange={e => setTimePeriod(Number(e.target.value))}>
+                    <option value={7}>Last week</option>
+                    <option value={14}>Last 2 weeks</option>
+                    <option value={30}>Last month</option>
+                </select>
+            </div>
+
+            <div>
+                <Line data={chartData} options={chartData.options} />
+            </div>
         </div>
     );
 }
