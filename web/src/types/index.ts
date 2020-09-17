@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb"
+
 export type RecommendedGasPrices = { 
     name: string;
     source: string;
@@ -10,7 +12,7 @@ export type RecommendedGasPrices = {
 }
 
 export type RegisteredEmailAddress = { 
-    id: string;
+    _id?: ObjectId;
     email: string;
     price: number;
     confirmed?: boolean;
