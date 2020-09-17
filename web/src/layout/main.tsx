@@ -8,6 +8,11 @@ import '../assets/index.css';
 function Main() {
     return (
         <div>
+
+            <div className="alert alert-warning m-3" role="alert">
+                Enjoy ETH Gas.watch? Support us on <a href="https://gitcoin.co/grants/1175/eth-gaswatch" className="alert-link">Gitcoin Grants</a> round 7. Even a small donation can go a long way 💰
+            </div>
+
             <header>
                 <h1><span role="img" aria-label="Fuel pump">⛽</span> ETH Gas.watch</h1>
             </header>
