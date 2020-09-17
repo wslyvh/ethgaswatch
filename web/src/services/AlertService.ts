@@ -1,6 +1,7 @@
 import { MongoClient, ObjectId } from 'mongodb';
-import { RegisteredEmailAddress } from "../types";
+import { AlertsData, RegisteredEmailAddress } from "../types";
 import { AppConfig } from "../config/app";
+import { GetAverage, GetMode } from '../utils/stats';
 require('encoding');
 require('mongodb-client-encryption');
 const qs = require('querystring');
@@ -104,4 +105,34 @@ export async function GetUserAlerts(view: "Active" | "Flagged", gasprice: number
     }
 
     return [];
+}
+
+
+export async function GetUserAlertsData(): Promise<AlertsData | null> { 
+
+    const client = new MongoClient(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
+    try { 
+        await client.connect();
+        const db = client.db(AppConfig.MONGODB_DB);
+        const collection = db.collection(db_collection);
+        const items = await collection.find().toArray();
+        const uniques = items.filter((item: RegisteredEmailAddress, index: number, array: RegisteredEmailAddress[]) => 
+            array.findIndex(i => i.email === item.email) === index);
+        const values = items.map((i: RegisteredEmailAddress) => i.price);
+
+        return {
+            alerts: items.length,
+            unique: uniques.length,
+            average: Math.round(GetAverage(values)),
+            mode: GetMode(values),
+        } as AlertsData; 
+    } 
+    catch (ex) { 
+        console.log("ERROR getting user alerts", ex);
+    }
+    finally {
+        await client.close();
+    }
+
+    return null;
 }

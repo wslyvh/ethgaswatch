@@ -7,6 +7,7 @@ import { AppConfig } from "../config/app";
 import { WeiToGwei } from '../utils/parse';
 import { AVERAGE_NAME } from '../utils/constants';
 import moment from 'moment';
+import { GetAverage, GetMedian } from '../utils/stats';
 
 const db_collection = "gasdata"
 
@@ -299,18 +300,6 @@ export function Average(prices: RecommendedGasPrices[], median: boolean): Recomm
         standard: Math.round(standard),
         slow: Math.round(slow),
     } as RecommendedGasPrices;
-}
-
-export function GetAverage(values: number[]): number { 
-    
-    return values.reduce((a, v) => a + v) / values.length;
-}
-
-export function GetMedian(values: number[]): number { 
-    const prices = values.sort();
-    const mid = Math.ceil(prices.length / 2);
-
-    return prices.length % 2 == 0 ? (prices[mid] + prices[mid - 1]) / 2 : prices[mid - 1];
 }
 
 async function getDatabaseCollection(): Promise<any> { 

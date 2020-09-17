@@ -1,9 +1,10 @@
 import React from 'react';
-import { GasChart } from '../components';
+import { AlertStats, GasChart } from '../components';
 
 function Stats() {
   return (
     <div className="container">
+      <AlertStats />
       <GasChart />
     </div>
   );
