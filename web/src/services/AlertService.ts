@@ -40,7 +40,7 @@ export async function RegisterUserAlert(email: string, gasprice: string): Promis
         return result.insertedId;
     } 
     catch (ex) { 
-        console.log("ERROR insertMany", ex);
+        console.log("ERROR registering user alert", ex);
     }
     finally {
         await client.close();
@@ -61,7 +61,7 @@ export async function UpdateUserAlert(id: string, fields: any): Promise<boolean>
         return result.modifiedCount > 0;
     } 
     catch (ex) { 
-        console.log("ERROR insertMany", ex);
+        console.log("ERROR updating user alert", ex);
     }
     finally {
         await client.close();

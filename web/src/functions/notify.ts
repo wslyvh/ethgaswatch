@@ -14,17 +14,17 @@ export async function handler(event: APIGatewayEvent, context: Context) {
     const uniques = activeUsers.filter((item: RegisteredEmailAddress, index: number, array: RegisteredEmailAddress[]) => 
         array.findIndex(i => i.email === item.email) === index);
 
-    await Promise.all(uniques.map(i => {
+    uniques.map(async i => {
         console.log("Notifying user", i.email, i._id.toString());
-        SendEmailNotification(i.email, i._id.toString(), i.price, normal);
-        UpdateUserAlert(i._id.toString(), { emailSent: true });
-    }));
+        await SendEmailNotification(i.email, i._id.toString(), i.price, normal);
+        await UpdateUserAlert(i._id.toString(), { emailSent: true });
+    });
 
     const flaggedUsers = await GetUserAlerts("Flagged", normal);
-    await Promise.all(flaggedUsers.map(i => {
-        console.log("Unflag user", i.email);
-        UpdateUserAlert(i._id.toString(), { emailSent: false });
-    }));
+    flaggedUsers.map(async i => {
+        const result = await UpdateUserAlert(i._id.toString(), { emailSent: false });
+        console.log("Unflagged user", i.email, result);
+    });
 
     return { statusCode: 200, body: `Ok. ${uniques.length} notifications sent. ${flaggedUsers.length} unflagged.` }
 }
