@@ -1,5 +1,5 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
-import { RegisterUserAlert } from '../services/AlertService';
+import { RegisterUserAlert, UpdateUserAlert } from '../services/AlertService';
 import { SendConfirmationEmail } from '../services/EmailService';
 
 export async function handler(event: APIGatewayEvent, context: Context) {
@@ -13,7 +13,8 @@ export async function handler(event: APIGatewayEvent, context: Context) {
     const id = await RegisterUserAlert(data.email, data.gasprice);
     if (!id) return { statusCode: 500, body: "Error registering user" };
     
-    await SendConfirmationEmail(data.email, id);
+    await UpdateUserAlert(id, { confirmed: true });
+    // await SendConfirmationEmail(data.email, id);
 
     return {
         statusCode: 200,
