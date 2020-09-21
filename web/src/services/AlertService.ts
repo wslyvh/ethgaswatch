@@ -35,7 +35,11 @@ export async function RegisterUserAlert(email: string, gasprice: string): Promis
         await client.connect();
         const db = client.db(AppConfig.MONGODB_DB);
         const collection = db.collection(db_collection);
-        const result = await collection.insertOne({ email: email, price: Number(gasprice) });
+        const result = await collection.insertOne({ 
+            email: email,
+            price: Number(gasprice),
+            registered: new Date()
+        });
         
         return result.insertedId;
     } 
