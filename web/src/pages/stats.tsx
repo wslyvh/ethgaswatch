@@ -3,7 +3,7 @@ import { AlertStats, GasChart } from '../components';
 
 function Stats() {
   return (
-    <div className="container">
+    <div>
       <AlertStats />
       <GasChart />
     </div>

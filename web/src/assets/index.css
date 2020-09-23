@@ -1,7 +1,5 @@
 html {
   margin: 0 auto;
-  max-width: 900px;
-  padding: 20px 0;
 }
 
 body {
@@ -11,6 +9,8 @@ body {
   text-align: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 h1 { 
@@ -43,6 +43,7 @@ table, tr, td {
 
 .container { 
   margin-top: 20px;
+  max-width: 960px;
 }
 
 .card { 
