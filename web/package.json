@@ -6,8 +6,7 @@
   "scripts": {
     "start": "concurrently 'react-scripts start' 'netlify-lambda serve src/functions'",
     "build": "react-scripts build && netlify-lambda build src/functions",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --coverage --verbose --detectOpenHandles --forceExit"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.2.5",
