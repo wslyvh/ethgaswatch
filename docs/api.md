@@ -2,7 +2,7 @@
 description: Access ETH Gas.watch data
 ---
 
-# Public API
+# API
 
 {% api-method method="get" host="http://ethgas.watch/api" path="/gas" %}
 {% api-method-summary %}
