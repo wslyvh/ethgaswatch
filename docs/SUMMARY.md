@@ -1,7 +1,9 @@
 # Table of contents
 
-* [Back to website](https://ethgas.watch/)
----
-* [ETH Gas.watch overview](README.md)
+## API 
+* [Overview](README.md)
 * [API](api.md)
-* [Back to website](https://ethgas.watch/)
+
+## ETH Gas.watch
+
+* [Visit website](https://ethgas.watch/)
