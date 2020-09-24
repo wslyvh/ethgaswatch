@@ -17,6 +17,9 @@ export async function handler(event: APIGatewayEvent, context: Context) {
         // 
     }
 
+    if (isNaN(days) && isNaN(hours))
+        return { statusCode: 400, body: "Bad Request" };
+
     return {
         statusCode: 200,
         body: JSON.stringify(data)
