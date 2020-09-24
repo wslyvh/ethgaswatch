@@ -19,6 +19,10 @@ function Main() {
                     <Switch>
                         <Route exact path="/"><Home /></Route>
                         <Route exact path="/stats"><Stats /></Route>
+                        <Route exact path='/docs' component={() => { 
+                            window.location.href = 'https://docs.ethgas.watch/'; 
+                            return null;
+                        }}/>
                         <Redirect to="/" />
                     </Switch>
                 </BrowserRouter>
