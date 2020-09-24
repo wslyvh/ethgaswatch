@@ -6,6 +6,7 @@
 [[redirects]]
   from = '/api/gas/trend'
   to = '/.netlify/functions/trend'
+  status = 200
 
 [[redirects]]
   from = '/api/alerts/stats'
