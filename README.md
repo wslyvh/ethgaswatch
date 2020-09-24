@@ -12,7 +12,7 @@ ETH Gas.watch is an aggregated gas price feed that checks multiple data sources 
 - Donations https://gitcoin.co/grants/1175/eth-gaswatch
 
 ## Documentation 
-tbd
+- Docs https://docs.ethgas.watch/
 
 ## Roadmap 
 - A public API + documentation
