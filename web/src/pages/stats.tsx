@@ -5,7 +5,8 @@ function Stats() {
   return (
     <div>
       <AlertStats />
-      <GasChart />
+      <GasChart type="daily" />
+      <GasChart type="hourly" />
     </div>
   );
 }

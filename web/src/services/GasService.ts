@@ -276,7 +276,59 @@ export async function GetDailyAverageGasData(days: number): Promise<TrendChartDa
         console.log("Failed to query daily avg gas data", ex);
         return null
     }
+}
 
+export async function GetHourlyAverageGasData(hours: number): Promise<TrendChartData | null> { 
+
+    try { 
+        const dbCollection = await getDatabaseCollection();
+        const since = moment().subtract(hours, "hours");
+
+        const items = await dbCollection.find({ "data.lastUpdated": { $gte: since.valueOf() } }).toArray();
+
+        var reduced = items.reduce((accumulator: any, item: any) => {
+            const hour = moment(item.data.lastUpdated).startOf("hour").format("D/MM HH:mm");
+            accumulator[hour] = accumulator[hour] || []; 
+            accumulator[hour].push(item); 
+
+            return accumulator;
+        }, {});
+
+        const result = {
+            labels: Array<string>(),
+            slow: Array<number>(),
+            normal: Array<number>(),
+            fast: Array<number>(),
+            instant: Array<number>()
+        } as TrendChartData;
+
+        Object.keys(reduced).forEach(i => {
+            let slow: number[] = [];
+            let normal: number[] = [];
+            let fast: number[] = [];
+            let instant: number[] = [];
+
+            reduced[i].forEach((gasdata: any) => {
+                const gas = gasdata.data as GasPriceData;
+                if (gas.slow) slow.push(gas.slow.gwei);
+                if (gas.normal) normal.push(gas.normal.gwei);
+                if (gas.fast) fast.push(gas.fast.gwei);
+                if (gas.instant) instant.push(gas.instant.gwei);
+            });
+
+            result.labels.push(i);
+            result.slow.push(GetMedian(slow));
+            result.normal.push(GetMedian(normal));
+            result.fast.push(GetMedian(fast));
+            result.instant.push(GetMedian(instant));
+        })
+        
+        return result;
+
+    } catch(ex) { 
+        console.log("Failed to query daily avg gas data", ex);
+        return null
+    }
 }
 
 export function Average(prices: RecommendedGasPrices[], median: boolean): RecommendedGasPrices { 

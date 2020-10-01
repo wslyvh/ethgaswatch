@@ -1,6 +1,6 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
 import { TrendChartData } from '../types';
-import { GetDailyAverageGasData } from '../services/GasService';
+import { GetDailyAverageGasData, GetHourlyAverageGasData } from '../services/GasService';
 
 export async function handler(event: APIGatewayEvent, context: Context) {
     const qs = event.queryStringParameters;
@@ -14,7 +14,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
 
     const hours = parseInt(qs.hours);
     if (!isNaN(hours)) { 
-        // 
+        data = await GetHourlyAverageGasData(hours);
     }
 
     if (isNaN(days) && isNaN(hours))
