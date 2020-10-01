@@ -73,7 +73,7 @@ export const GasChart = (props: GasChartProps) => {
         }
         
         asyncEffect();
-    }, [timePeriod]);
+    }, [timePeriod, props.type]);
     
     if (loading) { 
         return <Loading />
