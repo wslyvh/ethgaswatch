@@ -140,3 +140,29 @@ export async function GetUserAlertsData(): Promise<AlertsData | null> {
 
     return null;
 }
+
+export async function GetLatestUserAlerts(count: number, uniques?: boolean): Promise<RegisteredEmailAddress[]> { 
+
+    const client = new MongoClient(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
+    try { 
+        await client.connect();
+        const db = client.db(AppConfig.MONGODB_DB);
+        const collection = db.collection(db_collection);
+        let items = await collection.find().sort({ _id: -1 }).limit(count).toArray();
+        
+        if (uniques) {
+            items = items.filter((item: RegisteredEmailAddress, index: number, array: RegisteredEmailAddress[]) => 
+                array.findIndex(i => i.email === item.email) === index);
+        }
+
+        return items;
+    } 
+    catch (ex) { 
+        console.log("ERROR getting last user alerts", count, ex);
+    }
+    finally {
+        await client.close();
+    }
+
+    return [];
+}
