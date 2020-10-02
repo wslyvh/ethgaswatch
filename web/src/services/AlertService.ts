@@ -176,13 +176,12 @@ export async function GetDailyUserAlertsRegistrations(days: number): Promise<any
         const collection = db.collection(db_collection);
         const since = moment().subtract(days, "days").valueOf();
 
-        console.log("GetDailyUserAlertsRegistrations", since);
         const items = await collection.aggregate([
             { $match: { "registered": { $gte: since } } },
             { $project: {
-                  year: {$year: "$registered"},
-                  month: {$month: "$registered"},
-                  dayOfMonth: {$dayOfMonth: "$registered"}
+                  year: { $year: "$registered" },
+                  month: { $month: "$registered" },
+                  dayOfMonth: { $dayOfMonth: "$registered" }
             }},
             { $group: {
                 _id: {
@@ -202,10 +201,10 @@ export async function GetDailyUserAlertsRegistrations(days: number): Promise<any
         } as AlertsChartData;
 
         items.forEach(i => {
-            const mt = moment([i._id.year, i._id.month, i._id.dayOfMonth]);
+            const mt = moment(`${i._id.year} ${i._id.month} ${i._id.dayOfMonth}`, "YYYY MM DD");
             results.labels.push(mt.format("ll"));
             results.registrations.push(i.count);
-        })
+        });
         
         return results;
     }
@@ -217,5 +216,4 @@ export async function GetDailyUserAlertsRegistrations(days: number): Promise<any
     }
 
     return [];
-    
 }
