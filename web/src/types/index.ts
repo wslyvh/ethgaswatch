@@ -43,6 +43,11 @@ export type AlertsData = {
     mode: number,
 }
 
+export type AlertsChartData = {
+    labels: Array<string>,
+    registrations: Array<number>,
+}
+
 export type TrendChartData = {
     labels: Array<string>,
     slow: Array<number>,
