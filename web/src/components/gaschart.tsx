@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Loading } from '.';
-import { TrendChartData } from '../types';
+import { AlertsChartData, TrendChartData } from '../types';
 import { Line } from 'react-chartjs-2';
 
 interface GasChartProps { 
@@ -17,9 +17,14 @@ export const GasChart = (props: GasChartProps) => {
         async function asyncEffect() {
             try {
                 let body: TrendChartData | null = null;
+                let registrations: AlertsChartData | null = null;
+
                 if (props.type === "daily") { 
                     const response = await fetch(`/.netlify/functions/trend?days=${timePeriod}`);
                     body = await response.json() as TrendChartData;
+
+                    const regResponse = await fetch(`/.netlify/functions/registrations?days=${timePeriod}`);
+                    registrations = await regResponse.json() as AlertsChartData;
                 }
                 if (props.type === "hourly") { 
                     const response = await fetch(`/.netlify/functions/trend?hours=${timePeriod}`);
@@ -55,7 +60,7 @@ export const GasChart = (props: GasChartProps) => {
                         borderColor: "#654100",
                         borderWidth: "1",
                         data: body.instant,
-                    }],
+                    },],
                     options: {
                         legend: {
                             display: true,
@@ -63,6 +68,16 @@ export const GasChart = (props: GasChartProps) => {
                         }
                     }
                 };
+
+                if (registrations) { 
+                    chartData.datasets.push(
+                        {
+                            label: "Registrations",
+                            borderColor: "#dc3545",
+                            borderWidth: "1",
+                            data: registrations.registrations,
+                        })
+                }
 
                 setChartData(chartData);
             } catch (ex) { 
@@ -96,7 +111,7 @@ export const GasChart = (props: GasChartProps) => {
     </>);
 
     return (
-        <div className="mt-3">
+        <div className="mt-4 mb-4">
             <h2 className="text-capitalize">{props.type} average gas prices</h2>
 
             <div className="input-group input-group-sm col-6 col-sm-4 mb-3 float-right">
