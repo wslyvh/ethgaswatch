@@ -27,7 +27,7 @@ export async function GetAllPrices(includeAverage?: boolean): Promise<Recommende
     }));
 
     if (includeAverage) {
-        const medianPrices = Average(results, true);
+        const medianPrices = Average(results);
         results.push(medianPrices);
     }
 
@@ -37,9 +37,7 @@ export async function GetAllPrices(includeAverage?: boolean): Promise<Recommende
 export async function GetAveragePrice(): Promise<RecommendedGasPrices> { 
 
     const results = await GetAllPrices(true);
-    const avg = results.find(i => i.name === AVERAGE_NAME)
-
-    return Average(results, true);
+    return Average(results);
 }
 
 export async function fromEtherscan(): Promise<RecommendedGasPrices | null> { 
@@ -331,19 +329,14 @@ export async function GetHourlyAverageGasData(hours: number): Promise<TrendChart
     }
 }
 
-export function Average(prices: RecommendedGasPrices[], median: boolean): RecommendedGasPrices { 
+export function Average(prices: RecommendedGasPrices[]): RecommendedGasPrices { 
 
-    if (median) {
-        var instant = GetMedian(prices.filter(i => i.instant > 0).map(i => i.instant));
-        var fast = GetMedian(prices.filter(i => i.fast > 0).map(i => i.fast));
-        var standard = GetMedian(prices.filter(i => i.standard > 0).map(i => i.standard));
-        var slow = GetMedian(prices.filter(i => i.slow > 0).map(i => i.slow));
-    } else { 
-        var instant = GetAverage(prices.filter(i => i.instant > 0).map(i => i.instant));
-        var fast = GetAverage(prices.filter(i => i.fast > 0).map(i => i.fast));
-        var standard = GetAverage(prices.filter(i => i.standard > 0).map(i => i.standard));
-        var slow = GetAverage(prices.filter(i => i.slow > 0).map(i => i.slow));
-    }
+    const validPrices = prices.filter(i => ValidateGasPriceOrder(i));
+    console.log("Get average", prices.length, "data sources.", validPrices.length, "valid.");
+    var instant = GetMedian(validPrices.filter(i => i.instant > 0).map(i => i.instant));
+    var fast = GetMedian(validPrices.filter(i => i.fast > 0).map(i => i.fast));
+    var standard = GetMedian(validPrices.filter(i => i.standard > 0).map(i => i.standard));
+    var slow = GetMedian(validPrices.filter(i => i.slow > 0).map(i => i.slow));
 
     return {
         name: AVERAGE_NAME,
@@ -352,6 +345,18 @@ export function Average(prices: RecommendedGasPrices[], median: boolean): Recomm
         standard: Math.round(standard),
         slow: Math.round(slow),
     } as RecommendedGasPrices;
+}
+
+function ValidateGasPriceOrder(prices: RecommendedGasPrices): boolean { 
+    let result = prices.slow <= prices.standard && prices.standard <= prices.fast;
+    if (prices.instant) 
+        result = result && prices.fast <= prices.instant;
+
+    if (!result) { 
+        console.log("NOT a valid gas prices", prices.name, prices.slow, prices.standard, prices.fast, prices.instant);
+    }
+
+    return false;
 }
 
 async function getDatabaseCollection(): Promise<any> { 
