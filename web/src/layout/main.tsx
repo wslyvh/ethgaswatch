@@ -5,6 +5,7 @@ import Stats from '../pages/stats';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/index.css';
 import { Footer, Header } from '../components';
+import Privacy from '../pages/privacy';
 
 function Main() {
     return (
@@ -19,6 +20,7 @@ function Main() {
                     <Switch>
                         <Route exact path="/"><Home /></Route>
                         <Route exact path="/stats"><Stats /></Route>
+                        <Route exact path="/privacy"><Privacy /></Route>
                         <Route exact path='/docs' component={() => { 
                             window.location.href = 'https://docs.ethgas.watch/'; 
                             return null;
