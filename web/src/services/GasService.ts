@@ -356,7 +356,7 @@ function ValidateGasPriceOrder(prices: RecommendedGasPrices): boolean {
         console.log("NOT a valid gas prices", prices.name, prices.slow, prices.standard, prices.fast, prices.instant);
     }
 
-    return false;
+    return result;
 }
 
 async function getDatabaseCollection(): Promise<any> { 
