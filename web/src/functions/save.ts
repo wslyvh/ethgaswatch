@@ -1,11 +1,13 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
-import { GetAllPrices } from '../services/GasService';
+import { Connect, GetAllPrices, SaveGasData } from '../services/GasService';
 import { GetSpotPrice } from '../services/PriceService';
 import { GweiToUsdTransfer } from '../utils/parse';
 import { GasPriceData } from '../types';
-import { SaveGasData } from '../services/GasService';
+
+Connect().then(() => console.log("GasService Connected"));
 
 export async function handler(event: APIGatewayEvent, context: Context) {
+    context.callbackWaitsForEmptyEventLoop = false;
     
     const ethPrice = await GetSpotPrice();
     const results = await GetAllPrices(true);

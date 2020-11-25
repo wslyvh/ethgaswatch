@@ -1,10 +1,13 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
-import { UpdateUserAlert } from '../services/AlertService';
+import { Connect, UpdateUserAlert } from '../services/AlertService';
+
+Connect().then(() => console.log("AlertService Connected"));
 
 export async function handler(event: APIGatewayEvent, context: Context) {
+    context.callbackWaitsForEmptyEventLoop = false;
     const data = event.queryStringParameters;
     console.log(data);
-    
+
     if (!data.email || !data.id)
         return { statusCode: 400, body: "Bad Request" };
 

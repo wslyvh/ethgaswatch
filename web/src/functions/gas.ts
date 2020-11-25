@@ -1,15 +1,18 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
-import { GetLatestGasData } from '../services/GasService';
+import { Connect, GetLatestGasData } from '../services/GasService';
+
+Connect().then(() => console.log("GasService Connected"));
 
 export async function handler(event: APIGatewayEvent, context: Context) {
+  context.callbackWaitsForEmptyEventLoop = false;
 
-    const data = await GetLatestGasData();
+  const data = await GetLatestGasData();
 
-    return {
-        statusCode: 200,
-        body: JSON.stringify(data),
-        headers: {
-          'Cache-Control': 'public, max-age=300',
-        },
-    }
+  return {
+      statusCode: 200,
+      body: JSON.stringify(data),
+      headers: {
+        'Cache-Control': 'public, max-age=300',
+      },
+  }
 }

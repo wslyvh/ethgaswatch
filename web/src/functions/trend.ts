@@ -1,8 +1,11 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
 import { TrendChartData } from '../types';
-import { GetDailyAverageGasData, GetHourlyAverageGasData } from '../services/GasService';
+import { Connect, GetDailyAverageGasData, GetHourlyAverageGasData } from '../services/GasService';
+
+Connect().then(() => console.log("GasService Connected"));
 
 export async function handler(event: APIGatewayEvent, context: Context) {
+    context.callbackWaitsForEmptyEventLoop = false;
     const qs = event.queryStringParameters;
 
     let data: TrendChartData = null;

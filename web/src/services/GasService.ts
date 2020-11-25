@@ -1,15 +1,25 @@
 require('encoding');
 require('mongodb-client-encryption');
-const MongoClient = require('mongodb').MongoClient;
+import { MongoClient } from 'mongodb';
 import fetch from 'node-fetch';
 import { RecommendedGasPrices, GasPriceData, TrendChartData } from "../types";
 import { AppConfig } from "../config/app";
 import { WeiToGwei } from '../utils/parse';
 import { AVERAGE_NAME } from '../utils/constants';
 import moment from 'moment';
-import { GetAverage, GetMedian } from '../utils/stats';
+import { GetMedian } from '../utils/stats';
 
 const db_collection = "gasdata"
+let dbClient: MongoClient | null = null;
+
+export async function Connect(): Promise<MongoClient> {
+    if (!dbClient) {
+        dbClient = await MongoClient.connect(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
+        console.log("gasdata connected..");
+    }
+
+    return dbClient;
+}
 
 export async function GetAllPrices(includeAverage?: boolean): Promise<RecommendedGasPrices[]> { 
     
@@ -360,7 +370,7 @@ function ValidateGasPriceOrder(prices: RecommendedGasPrices): boolean {
 }
 
 async function getDatabaseCollection(): Promise<any> { 
-    const client = await MongoClient.connect(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
+    const client = await Connect();
     const db = client.db(AppConfig.MONGODB_DB);
     return db.collection(db_collection); 
 }

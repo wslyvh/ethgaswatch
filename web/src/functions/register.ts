@@ -1,8 +1,12 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
-import { RegisterUserAlert, UpdateUserAlert } from '../services/AlertService';
+import { Connect, RegisterUserAlert } from '../services/AlertService';
 import { SendConfirmationEmail } from '../services/EmailService';
 
+Connect().then(() => console.log("AlertService Connected"));
+
 export async function handler(event: APIGatewayEvent, context: Context) {
+    context.callbackWaitsForEmptyEventLoop = false;
+    
     if (event.httpMethod !== "POST")
         return { statusCode: 405, body: "Method Not Allowed" };
 

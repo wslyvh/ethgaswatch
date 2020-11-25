@@ -1,7 +1,10 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
-import { GetDailyUserAlertsRegistrations } from '../services/AlertService';
+import { Connect, GetDailyUserAlertsRegistrations } from '../services/AlertService';
+
+Connect().then(() => console.log("AlertService Connected"));
 
 export async function handler(event: APIGatewayEvent, context: Context) {
+    context.callbackWaitsForEmptyEventLoop = false;
     const qs = event.queryStringParameters;
 
     let data: any = null;

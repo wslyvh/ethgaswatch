@@ -1,11 +1,15 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
-import { GetUserAlerts, UpdateUserAlert } from '../services/AlertService';
+import { Connect as AlertConnect, GetUserAlerts, UpdateUserAlert } from '../services/AlertService';
 import { SendEmailNotification } from '../services/EmailService';
-import { GetLatestGasData } from '../services/GasService';
+import { Connect as GasConnect, GetLatestGasData } from '../services/GasService';
 import { RegisteredEmailAddress } from '../types';
 
-export async function handler(event: APIGatewayEvent, context: Context) {
-    
+AlertConnect().then(() => console.log("AlertService Connected"));
+GasConnect().then(() => console.log("GasService Connected"));
+
+export async function handler(event: APIGatewayEvent, context: Context) {    
+    context.callbackWaitsForEmptyEventLoop = false;
+
     const data = await GetLatestGasData();
     const normal = data.normal.gwei;
     console.log("Current avg normal", normal);

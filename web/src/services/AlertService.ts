@@ -8,14 +8,21 @@ require('mongodb-client-encryption');
 const qs = require('querystring');
 
 const db_collection = "alerts"
+let dbClient: MongoClient | null = null;
+
+export async function Connect(): Promise<MongoClient> {
+    if (!dbClient) {
+        dbClient = await MongoClient.connect(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
+        console.log("alerts Connected..");
+    }
+
+    return dbClient;
+}
 
 export async function RegisterMany(alerts: RegisteredEmailAddress[]) { 
 
-    const client = new MongoClient(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
     try { 
-        await client.connect();
-        const db = client.db(AppConfig.MONGODB_DB);
-        const collection = db.collection(db_collection);
+        const collection = await getDatabaseCollection();
 
         console.log(`Importing ${alerts.length} alerts...`);
         const result = await collection.insertMany(alerts);
@@ -24,18 +31,12 @@ export async function RegisterMany(alerts: RegisteredEmailAddress[]) {
     catch (ex) { 
         console.log("ERROR insertMany", ex);
     }
-    finally {
-        await client.close();
-    }
 }
 
 export async function RegisterUserAlert(email: string, gasprice: string): Promise<string> { 
 
-    const client = new MongoClient(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
     try { 
-        await client.connect();
-        const db = client.db(AppConfig.MONGODB_DB);
-        const collection = db.collection(db_collection);
+        const collection = await getDatabaseCollection();
         const result = await collection.insertOne({ 
             email: email,
             price: Number(gasprice),
@@ -47,29 +48,20 @@ export async function RegisterUserAlert(email: string, gasprice: string): Promis
     catch (ex) { 
         console.log("ERROR registering user alert", ex);
     }
-    finally {
-        await client.close();
-    }
 
     return "";
 }
 
 export async function UpdateUserAlert(id: string, fields: any): Promise<boolean> { 
 
-    const client = new MongoClient(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
     try { 
-        await client.connect();
-        const db = client.db(AppConfig.MONGODB_DB);
-        const collection = db.collection(db_collection);
+        const collection = await getDatabaseCollection();
         const result = await collection.updateOne({ _id : new ObjectId(id) }, { $set: fields });
         
         return result.modifiedCount > 0;
     } 
     catch (ex) { 
         console.log("ERROR updating user alert", ex);
-    }
-    finally {
-        await client.close();
     }
 
     return false;
@@ -95,18 +87,12 @@ export async function GetUserAlerts(view: "Active" | "Flagged", gasprice: number
         } 
     }
 
-    const client = new MongoClient(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
     try { 
-        await client.connect();
-        const db = client.db(AppConfig.MONGODB_DB);
-        const collection = db.collection(db_collection);
+        const collection = await getDatabaseCollection();
         return await collection.find(priceQuery).toArray();
     } 
     catch (ex) { 
         console.log("ERROR getting user alerts", ex);
-    }
-    finally {
-        await client.close();
     }
 
     return [];
@@ -114,11 +100,8 @@ export async function GetUserAlerts(view: "Active" | "Flagged", gasprice: number
 
 export async function GetUserAlertsData(): Promise<AlertsData | null> { 
 
-    const client = new MongoClient(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
     try { 
-        await client.connect();
-        const db = client.db(AppConfig.MONGODB_DB);
-        const collection = db.collection(db_collection);
+        const collection = await getDatabaseCollection();
         const items = await collection.find().toArray();
         const uniques = items.filter((item: RegisteredEmailAddress, index: number, array: RegisteredEmailAddress[]) => 
             array.findIndex(i => i.email === item.email) === index);
@@ -134,20 +117,14 @@ export async function GetUserAlertsData(): Promise<AlertsData | null> {
     catch (ex) { 
         console.log("ERROR getting user alerts", ex);
     }
-    finally {
-        await client.close();
-    }
 
     return null;
 }
 
 export async function GetLatestUserAlerts(count: number, uniques?: boolean): Promise<RegisteredEmailAddress[]> { 
 
-    const client = new MongoClient(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
     try { 
-        await client.connect();
-        const db = client.db(AppConfig.MONGODB_DB);
-        const collection = db.collection(db_collection);
+        const collection = await getDatabaseCollection();
         let items = await collection.find().sort({ _id: -1 }).limit(count).toArray();
         
         if (uniques) {
@@ -160,20 +137,14 @@ export async function GetLatestUserAlerts(count: number, uniques?: boolean): Pro
     catch (ex) { 
         console.log("ERROR getting last user alerts", count, ex);
     }
-    finally {
-        await client.close();
-    }
 
     return [];
 }
 
 export async function GetDailyUserAlertsRegistrations(days: number): Promise<any> { 
 
-    const client = new MongoClient(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
-    try { 
-        await client.connect();
-        const db = client.db(AppConfig.MONGODB_DB);
-        const collection = db.collection(db_collection);
+    try {
+        const collection = await getDatabaseCollection();
         const since = moment().subtract(days, "days").valueOf();
 
         const items = await collection.aggregate([
@@ -200,7 +171,7 @@ export async function GetDailyUserAlertsRegistrations(days: number): Promise<any
             registrations: Array<number>(),
         } as AlertsChartData;
 
-        items.forEach(i => {
+        items.forEach((i: any) => {
             const mt = moment(`${i._id.year} ${i._id.month} ${i._id.dayOfMonth}`, "YYYY MM DD");
             results.labels.push(mt.format("ll"));
             results.registrations.push(i.count);
@@ -211,9 +182,12 @@ export async function GetDailyUserAlertsRegistrations(days: number): Promise<any
     catch (ex) { 
         console.log("ERROR GetDailyUserAlertsRegistrations", ex);
     }
-    finally {
-        await client.close();
-    }
 
     return [];
+}
+
+async function getDatabaseCollection(): Promise<any> { 
+    const client = await Connect();
+    const db = client.db(AppConfig.MONGODB_DB);
+    return db.collection(db_collection); 
 }
