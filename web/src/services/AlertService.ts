@@ -67,12 +67,30 @@ export async function UpdateUserAlert(id: string, fields: any): Promise<boolean>
     return false;
 }
 
+export async function UpdateMultipleUserAlerts(addresses: RegisteredEmailAddress[], fields: any): Promise<boolean> { 
+
+    try { 
+        const collection = await getDatabaseCollection();
+        const ids = addresses.map(i => new ObjectId(i._id));
+        const result = await collection.updateMany(
+            { _id : { $in: ids } },
+            { $set: fields });
+        
+        console.log("Update results", addresses.length === result.modifiedCount, addresses.length, result.modifiedCount)
+        return result.modifiedCount > 0;
+    } 
+    catch (ex) { 
+        console.log("ERROR updating user alert", ex);
+    }
+
+    return false;
+}
 export async function GetUserAlerts(view: "Active" | "Flagged", gasprice: number): Promise<RegisteredEmailAddress[]> { 
 
     let priceQuery = {};
     if (view === "Active") { 
         priceQuery = { 
-            price: { $gte: gasprice },
+            price: { $gt: gasprice },
             confirmed: true,
             emailSent: { $ne: true },
             disabled: { $ne: true },
@@ -80,7 +98,7 @@ export async function GetUserAlerts(view: "Active" | "Flagged", gasprice: number
     }
     if (view === "Flagged") { 
         priceQuery = { 
-            price: { $lte: gasprice },
+            price: { $lt: gasprice },
             confirmed: true,
             emailSent: true,
             disabled: { $ne: true },
