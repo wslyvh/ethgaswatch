@@ -21,7 +21,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
     console.log("Notifying", uniques.length, "users", activeUsers.length, "total");
     uniques.map(async i => {
         console.log("Notify", i.email, i.price, i._id.toString());
-        await SendEmailNotification(i.email, i._id.toString(), i.price, normal);
+        // await SendEmailNotification(i.email, i._id.toString(), i.price, normal);
     });
 
     console.log("Updating user flags");
