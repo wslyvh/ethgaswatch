@@ -116,6 +116,22 @@ export async function GetUserAlerts(view: "Active" | "Flagged", gasprice: number
     return [];
 }
 
+export async function ExportUserAlerts(): Promise<Array<string>> { 
+
+    try { 
+        const collection = await getDatabaseCollection();
+        const items = await collection.find().toArray();
+        const uniques = items.filter((item: RegisteredEmailAddress, index: number, array: RegisteredEmailAddress[]) => 
+            array.findIndex(i => i.email === item.email) === index);
+        return uniques.map((i: RegisteredEmailAddress) => i.email);
+    } 
+    catch (ex) { 
+        console.log("ERROR getting user alerts", ex);
+    }
+
+    return [];
+}
+
 export async function GetUserAlertsData(): Promise<AlertsData | null> { 
 
     try { 

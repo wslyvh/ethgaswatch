@@ -14,11 +14,8 @@ function Main() {
 
             <div className="container">
                 <div className="alert alert-warning m-3" role="alert">
-                    <strong>Nov 26</strong> - A database issue caused that users did not get flagged when an email was sent. This resulted in multiple notifications without any price change. Apologies for the inconvenience! Trying to fix the issue asap!
+                    Enjoy ETH Gas.watch? Support us on <a href="https://gitcoin.co/grants/1175/eth-gaswatch" className="alert-link">Gitcoin Grants</a> round 8. Even a small donation can go a long way 💰
                 </div>
-                {/* <div className="alert alert-warning m-3" role="alert">
-                    Enjoy ETH Gas.watch? Support us on <a href="https://gitcoin.co/grants/1175/eth-gaswatch" className="alert-link">Gitcoin Grants</a> round 7. Even a small donation can go a long way 💰
-                </div> */}
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/"><Home /></Route>
