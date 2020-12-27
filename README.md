@@ -42,3 +42,7 @@ Builds the app for production to the build folder.
 ## License
 
 ETH Gas.watch is released under the [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+![Deploys by Netlify](https://www.netlify.com/img/global/badges/netlify-color-accent.svg)
