@@ -1,6 +1,6 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
 import { Connect, RegisterUserAlert } from '../services/AlertService';
-import { SendConfirmationEmail } from '../services/EmailService';
+import { SendConfirmationEmail } from '../services/MailjetService';
 
 Connect().then(() => console.log("AlertService Connected"));
 
