@@ -1,6 +1,6 @@
 import { Context, APIGatewayEvent } from 'aws-lambda'
 import { Connect as AlertConnect, GetUserAlerts, UpdateMultipleUserAlerts, UpdateUserAlert } from '../services/AlertService';
-import { SendEmailNotification } from '../services/EmailService';
+import { SendEmailNotification } from '../services/MailjetService';
 import { Connect as GasConnect, GetLatestGasData } from '../services/GasService';
 import { RegisteredEmailAddress } from '../types';
 
