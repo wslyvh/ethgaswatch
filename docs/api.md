@@ -111,13 +111,17 @@ Trend
 {% endapi-method-summary %}
 
 {% api-method-description %}
-This endpoint allows you to get historical gas price data.
+This endpoint allows you to get historical gas price data. Chose one of the query params below to retrieve either the daily or the hourly trend data.
 {% endapi-method-description %}
 
 {% api-method-spec %}
 {% api-method-request %}
 {% api-method-query-parameters %}
-{% api-method-parameter name="" type="string" required=true %}
+{% api-method-parameter name="hours" type="number" required=false %}
+Amount of hours to return \(e.g. 24 for 1 day\)
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="days" type="number" required=false %}
 Amount of days to return \(e.g. 7 for 1 week\)
 {% endapi-method-parameter %}
 {% endapi-method-query-parameters %}
@@ -154,6 +158,12 @@ This endpoint allows you to get statistics on the amount of alerts and registrat
 
 {% api-method-spec %}
 {% api-method-request %}
+{% api-method-query-parameters %}
+{% api-method-parameter name="days" type="number" required=true %}
+Amount of days to return \(e.g. 7 for 1 week\)
+{% endapi-method-parameter %}
+{% endapi-method-query-parameters %}
+{% endapi-method-request %}
 
 {% api-method-response %}
 {% api-method-response-example httpCode=200 %}
