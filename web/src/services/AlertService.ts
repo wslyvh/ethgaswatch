@@ -12,7 +12,7 @@ let dbClient: MongoClient | null = null;
 
 export async function Connect(): Promise<MongoClient> {
     if (!dbClient) {
-        dbClient = await MongoClient.connect(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true, useUnifiedTopology: true });
+        dbClient = await MongoClient.connect(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
         console.log("alerts Connected..");
     }
 

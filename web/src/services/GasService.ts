@@ -13,7 +13,7 @@ let dbClient: MongoClient | null = null;
 
 export async function Connect(): Promise<MongoClient> {
     if (!dbClient) {
-        dbClient = await MongoClient.connect(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true, useUnifiedTopology: true  });
+        dbClient = await MongoClient.connect(AppConfig.MONGODB_CONNECTIONSTRING, { useNewUrlParser: true });
         console.log("gasdata connected..");
     }
 
@@ -118,39 +118,6 @@ export async function GetDailyAverageGasData(days: number): Promise<TrendChartDa
         console.log("Failed to query daily avg gas data", ex);
         return null
     }
-}
-
-function MapAverageGasData(reduced: any) : TrendChartData{
-    const result = {
-        labels: Array<string>(),
-        slow: Array<number>(),
-        normal: Array<number>(),
-        fast: Array<number>(),
-        instant: Array<number>()
-    } as TrendChartData;
-
-    Object.keys(reduced).forEach(i => {
-        let slow: number[] = [];
-        let normal: number[] = [];
-        let fast: number[] = [];
-        let instant: number[] = [];
-
-        reduced[i].forEach((gasdata: any) => {
-            const gas = gasdata.data as GasPriceData;
-            if (gas.slow) slow.push(gas.slow.gwei);
-            if (gas.normal) normal.push(gas.normal.gwei);
-            if (gas.fast) fast.push(gas.fast.gwei);
-            if (gas.instant) instant.push(gas.instant.gwei);
-        });
-
-        result.labels.push(i);
-        result.slow.push(GetMedian(slow));
-        result.normal.push(GetMedian(normal));
-        result.fast.push(GetMedian(fast));
-        result.instant.push(GetMedian(instant));
-    })
-    
-    return result;
 }
 
 export async function GetHourlyAverageGasData(hours: number): Promise<TrendChartData | null> { 
