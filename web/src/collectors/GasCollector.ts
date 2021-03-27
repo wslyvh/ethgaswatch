@@ -38,7 +38,6 @@ export class GasCollector {
         }
 
         await Promise.all([collectors]);
-
         return results;
     }
 }
