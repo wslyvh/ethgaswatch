@@ -6,38 +6,24 @@ import { GasStationCollector } from "./GasStationCollector";
 import { MyCryptoCollector } from "./MyCryptoCollector";
 import { NetworkCollector } from "./NetworkCollector";
 import { UpvestCollector } from "./UpvestCollector";
+import { Collector } from "./Collector";
 
-export interface IGasCollector{
-    collect(): Promise<RecommendedGasPrices | null>;
-}
-
-interface ComponentClass {
-    new(): IGasCollector;
-}
-const components: { [name: string]: IGasCollector } = {};
-
-function init(params: ComponentClass[]) {
-    params.map((component) => {
-        let comp = new component();
-        components[component.name] = comp;
-    });
-}
-
-init([EtherscanCollector, EtherchainCollector, GasStationCollector, MyCryptoCollector, UpvestCollector, NetworkCollector, GasNowCollector ]);
 
 export class GasCollector {
-    gasCollectors : ComponentClass[] = [EtherscanCollector, EtherchainCollector, GasStationCollector, MyCryptoCollector, UpvestCollector, NetworkCollector, GasNowCollector ];
 
     async Get() : Promise<RecommendedGasPrices[]>{
-        const results = new Array<RecommendedGasPrices>();
-        const collectors = [];
-        for (const c in components) {
-            collectors.push(await components[c].collect().then(gas => {
-                if(gas) results.push(gas);
-            }));
-        }
 
-        await Promise.all([collectors]);
+        const collectors : (typeof Collector)[] = [EtherscanCollector, EtherchainCollector, GasNowCollector, GasStationCollector, MyCryptoCollector, NetworkCollector, UpvestCollector];
+        const results = new Array<RecommendedGasPrices>();
+        const gases = await Promise.all(collectors
+            .map(async collector => {
+                return new collector().collect();
+            }));
+            
+        gases.map(gas => {
+            if(gas) results.push(gas); 
+        });
+
         return results;
     }
 }
