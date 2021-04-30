@@ -25,6 +25,9 @@ export async function handler(event: APIGatewayEvent, context: Context) {
 
     return {
         statusCode: 200,
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
     }
 }
