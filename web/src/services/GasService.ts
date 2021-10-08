@@ -120,6 +120,38 @@ export async function GetDailyAverageGasData(days: number): Promise<TrendChartDa
     }
 }
 
+export async function GetHourlyAverage(hours: number): Promise<Array<any> | null> { 
+
+    try { 
+        const dbCollection = await getDatabaseCollection();
+        const since = moment().subtract(hours, "hours");
+
+        const items = await dbCollection.aggregate([
+            { "$match": { "data.lastUpdated": { $gte: since.valueOf() }}},
+            { "$group": {
+                _id: { 
+                    "day": { $dayOfWeek: { $toDate: "$data.lastUpdated" } },
+                    "hour": { $hour: { $toDate: "$data.lastUpdated" } }
+                },
+                avg: { $avg: "$data.fast.gwei" }
+              }
+            }
+        ]).toArray();
+
+        return items.map((i: any) => {
+            return { 
+                day: i._id.day,
+                hour: i._id.hour,
+                avg: i.avg
+            }
+        })
+
+    } catch(ex) { 
+        console.log("Failed to query daily avg gas data", ex);
+        return null
+    }
+}
+
 export async function GetHourlyAverageGasData(hours: number): Promise<TrendChartData | null> { 
 
     try { 

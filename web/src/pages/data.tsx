@@ -1,15 +1,12 @@
 import React from 'react';
-import { Register, GasPrices} from '../components';
 import { Heatmap } from '../components/heatmap';
 
-function Home() {
+function Data() {
   return (
     <div>
-      <Register />
-      <GasPrices />
       <Heatmap />
     </div>
   );
 }
 
-export default Home;
+export default Data;

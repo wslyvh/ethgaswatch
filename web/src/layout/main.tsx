@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import Home from '../pages/home';
 import Stats from '../pages/stats';
+import Data from '../pages/data';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/index.css';
 import { Footer, Header } from '../components';
@@ -19,6 +20,7 @@ function Main() {
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/"><Home /></Route>
+                        <Route exact path="/data"><Data /></Route>
                         <Route exact path="/stats"><Stats /></Route>
                         <Route exact path="/privacy"><Privacy /></Route>
                         <Route exact path='/docs' component={() => { 
