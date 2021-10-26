@@ -137,12 +137,15 @@ export async function GetUserAlertsData(): Promise<AlertsData | null> {
     try { 
         const collection = await getDatabaseCollection();
         const all = await collection.countDocuments()
+        const uniques = await collection.distinct("email")
+        console.log('Unique addresses', uniques.length)
+
         const stats = await collection.aggregate([
             { "$match": { 
                 "confirmed": true,
                 "price": { $lte: 10000 }
             }},
-            { "$group": {                
+            { "$group": {
                 _id: null,
                 count: { $sum: 1 },
                 min: { $min: "$price" },
