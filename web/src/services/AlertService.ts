@@ -136,16 +136,27 @@ export async function GetUserAlertsData(): Promise<AlertsData | null> {
 
     try { 
         const collection = await getDatabaseCollection();
-        const items = await collection.find().toArray();
-        const uniques = items.filter((item: RegisteredEmailAddress, index: number, array: RegisteredEmailAddress[]) => 
-            array.findIndex(i => i.email === item.email) === index);
-        const values = items.map((i: RegisteredEmailAddress) => i.price);
+        const all = await collection.countDocuments()
+        const stats = await collection.aggregate([
+            { "$match": { 
+                "confirmed": true,
+                "price": { $lte: 10000 }
+            }},
+            { "$group": {                
+                _id: null,
+                count: { $sum: 1 },
+                min: { $min: "$price" },
+                max: { $max: "$price" },
+                avg: { $avg: "$price" }
+              }
+            }
+        ]).toArray();
 
         return {
-            alerts: items.length,
-            unique: uniques.length,
-            average: Math.round(GetAverage(values)),
-            mode: GetMode(values),
+            alerts: all,
+            unique: stats[0].count,
+            average: Math.round(stats[0].avg),
+            mode: 0 //GetMode(values),
         } as AlertsData; 
     } 
     catch (ex) { 

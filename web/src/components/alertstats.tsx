@@ -36,7 +36,6 @@ export const AlertStats = () => {
             <AlertCard title="Alerts" value={alertsData.alerts} />
             <AlertCard title="Users" value={alertsData.unique} />
             <AlertCard title="Average" description="gwei" value={alertsData.average} />
-            <AlertCard title="Mode" description="gwei" value={alertsData.mode} />
         </div>
     );
 }
