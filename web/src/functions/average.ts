@@ -25,7 +25,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
       return weekDays
         .map((weekDay) => {
           // timezones? GMT ?
-          if (weekDay === current.weekday() && hourOfTheDay > current.hour() - 2) {
+          if (weekDay === current.weekday() && hourOfTheDay > current.hour()) {
             return null
           }
 
