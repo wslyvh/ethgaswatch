@@ -40,8 +40,6 @@ export const Heatmap = (props: Props) => {
         return <Alert type="danger" message="Couldn't retrieve gas chart data." />
     } 
 
-    console.log('GAS DATA', data)
-
     return (
         <div className="mt-4 mb-4">
             <h2 className="text-capitalize">Average gas prices</h2>
@@ -68,7 +66,10 @@ export const Heatmap = (props: Props) => {
                     })}
                     cellHeight="1.5rem"
                     xLabelsPos="bottom"
-                />
+                /> 
+                <div className="float-right">
+                    <small className="text-muted">* timezone in GMT</small>
+                </div>
             </div>
         </div>
     );
