@@ -49,10 +49,22 @@ export async function SendEmailNotification(email: string, id: string, price: nu
     const cancellationLink = `${AppConfig.HOST}.netlify/functions/cancel?email=${email}&id=${id}`
     const body = `The Ethereum gas price is currently ${currentPrice} gwei. 
     
-    For up-to-date prices, check out at ${AppConfig.HOST}
+    For up-to-date prices, check out ${AppConfig.HOST}
     
     To unsubscribe from notifications at this price level, click the link below.
     ${cancellationLink}`
+
+    const htmlBody = `The Ethereum gas price is currently ${currentPrice} gwei. 
+    <br/><br/>
+
+    For up-to-date prices, check out <a href='${AppConfig.HOST}'>${AppConfig.HOST}</a>.
+    <br/><br/>
+
+    Click <a href='${cancellationLink}'>here</a> to unsubscribe from notifications at this price level.    
+    <br/><br/><br/>
+
+    * Want to learn more about Web3? Check out <a href='https://www.useweb3.xyz/'>https://www.useweb3.xyz/</a>.<br/>
+    A curated overview of the best and latest resources on Ethereum, blockchain and Web3 development.`
 
     const message = {
         "Messages": [
@@ -69,7 +81,7 @@ export async function SendEmailNotification(email: string, id: string, price: nu
             ],
             "Subject": `ETH Gas.price <${price} gwei`,
             "TextPart": body,
-            "HTMLPart": body,
+            "HTMLPart": htmlBody,
             }
         ]
     }
