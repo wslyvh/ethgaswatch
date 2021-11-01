@@ -65,7 +65,11 @@ export const GasChart = (props: GasChartProps) => {
                         legend: {
                             display: true,
                             position: 'top'
-                        }
+                        },
+                        tooltips: {
+	                        mode: 'index',
+	                        intersect: false,
+    	                },
                     }
                 };
 
