@@ -63,7 +63,7 @@ export async function SendEmailNotification(email: string, id: string, price: nu
     Click <a href='${cancellationLink}'>here</a> to unsubscribe from notifications at this price level.    
     <br/><br/><br/>
 
-    * Want to learn more about Web3? Check out <a href='https://www.useweb3.xyz/'>https://www.useweb3.xyz/</a>.<br/>
+    * Want to learn more about Web3? Check out <a href='https://www.useweb3.xyz/?utm_source=ethgas&utm_medium=email'>https://www.useweb3.xyz/</a>.<br/>
     A curated overview of the best and latest resources on Ethereum, blockchain and Web3 development.`
 
     const message = {
