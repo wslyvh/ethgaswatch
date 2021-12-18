@@ -14,9 +14,9 @@ function Main() {
             <Header />
 
             <div className="container">
-                <div className="alert alert-warning m-3" role="alert">
+                {/* <div className="alert alert-warning m-3" role="alert">
                     Enjoy ETH Gas.watch? Please support us on <a href="https://gitcoin.co/grants/4143/wslyvh-useweb3-ethgas-tokenlog-more" className="alert-link">Gitcoin Grants</a>. Even a small donation can go a long way 💰
-                </div>
+                </div> */}
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/"><Home /></Route>

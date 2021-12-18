@@ -49,6 +49,10 @@ export async function SendConfirmationEmail(email: string, id: string) : Promise
 // * Want to learn more about Web3? Check out <a href='https://www.useweb3.xyz/?utm_source=ethgas&utm_medium=email'>https://www.useweb3.xyz/</a>.<br/>
 // A curated overview of the best and latest resources on Ethereum, blockchain and Web3 development.`
 
+// * If you're using this service, please considering donating in <a href='https://gitcoin.co/grants/4143/wslyvh-useweb3-ethgas-tokenlog-more'>Gitcoin Round 12</a>.<br/>
+// All your donations are matched using quadratic funding and help keep this service running (for free).<br/><br/>
+// Thank you!`
+
 export async function SendEmailNotification(email: string, id: string, price: number, currentPrice: number) : Promise<void> { 
     const cancellationLink = `${AppConfig.HOST}.netlify/functions/cancel?email=${email}&id=${id}`
     const body = `The Ethereum gas price is currently ${currentPrice} gwei. 
@@ -67,9 +71,8 @@ export async function SendEmailNotification(email: string, id: string, price: nu
     Click <a href='${cancellationLink}'>here</a> to unsubscribe from notifications at this price level.    
     <br/><br/><br/>
 
-    * If you're using this service, please considering donating in <a href='https://gitcoin.co/grants/4143/wslyvh-useweb3-ethgas-tokenlog-more'>Gitcoin Round 12</a>.<br/>
-    All your donations are matched using quadratic funding and help keep this service running (for free).<br/><br/>
-    Thank you!`
+    * Want to learn more about Web3? Check out <a href='https://www.useweb3.xyz/?utm_source=ethgas&utm_medium=email'>https://www.useweb3.xyz/</a>.<br/>
+    A curated overview of the best and latest resources on Ethereum, blockchain and Web3 development.`
 
     const message = {
         "Messages": [
