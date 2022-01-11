@@ -24,80 +24,61 @@ This endpoint allows you to get the latest gas price data, similar to what is sh
 
 ```
 {
-	"slow": {
-		"gwei": 6,
-		"usd": 0.04
-	},
-	"normal": {
-		"gwei": 80,
-		"usd": 0.55
-	},
-	"fast": {
-		"gwei": 165,
-		"usd": 1.13
-	},
-	"instant": {
-		"gwei": 161,
-		"usd": 1.11
-	},
-	"ethPrice": 327.37,
-	"lastUpdated": 1600934924047,
-	"sources": [{
-		"name": "Etherscan",
-		"source": "https://etherscan.io/gastracker",
-		"fast": 100,
-		"standard": 92,
-		"slow": 88,
-		"lastBlock": 10924114
-	}, {
-		"name": "Etherchain",
-		"source": "https://etherchain.org/tools/gasPriceOracle",
-		"instant": 112,
-		"fast": 97,
-		"standard": 80,
-		"slow": 6,
-		"lastUpdate": 1600934922637
-	}, {
-		"name": "Gas station",
-		"source": "https://ethgasstation.info/",
-		"instant": 151,
-		"fast": 151,
-		"standard": 74,
-		"slow": 73,
-		"lastBlock": 10924114
-	}, {
-		"name": "GAS Now",
-		"source": "https://www.gasnow.org/",
-		"instant": 402,
-		"fast": 139,
-		"standard": 93,
-		"slow": 88,
-		"lastUpdate": 1600934918002
-	}, {
-		"name": "MyCrypto",
-		"source": "https://gas.mycryptoapi.com/",
-		"instant": 112,
-		"fast": 97,
-		"standard": 80,
-		"slow": 6,
-		"lastBlock": 10924114
-	}, {
-		"name": "POA Network",
-		"source": "https://gasprice.poa.network/",
-		"instant": 220,
-		"fast": 200,
-		"standard": 180,
-		"slow": 139,
-		"lastBlock": 10921194
-	}, {
-		"name": "Upvest",
-		"source": "https://doc.upvest.co/reference#ethereum-fees",
-		"instant": 171,
-		"fast": 165,
-		"standard": 71,
-		"slow": 52,
-		"lastUpdate": 1600934924047
-	}]
+    "slow": {
+        "gwei": 199,
+        "usd": 12.84
+    },
+    "normal": {
+        "gwei": 208,
+        "usd": 13.42
+    },
+    "fast": {
+        "gwei": 221,
+        "usd": 14.26
+    },
+    "instant": {
+        "gwei": 243,
+        "usd": 15.68
+    },
+    "ethPrice": 3072.61,
+    "lastUpdated": 1641851674313,
+    "sources": [
+        {
+            "name": "Etherscan",
+            "source": "https://etherscan.io/gastracker",
+            "fast": 219,
+            "standard": 217,
+            "slow": 217,
+            "lastBlock": 13980268
+        },
+        {
+            "name": "Gas station",
+            "source": "https://ethgasstation.info/",
+            "instant": 312,
+            "fast": 265,
+            "standard": 215,
+            "slow": 201,
+            "lastBlock": 13980267
+        },
+        {
+            "name": "MyCrypto",
+            "source": "https://gas.mycryptoapi.com/",
+            "instant": 243,
+            "fast": 223,
+            "standard": 201,
+            "slow": 181,
+            "lastBlock": 13980267
+        },
+        {
+            "name": "Upvest",
+            "source": "https://doc.upvest.co/reference#ethereum-fees",
+            "instant": 226,
+            "fast": 218,
+            "standard": 201,
+            "slow": 196,
+            "lastUpdate": 1641851673884
+        }
+    ]
 }
 ```
 {% endapi-method-response-example %}
