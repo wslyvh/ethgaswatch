@@ -1,17 +1,10 @@
 import { RecommendedGasPrices } from "../types";
-<<<<<<< HEAD
 import { EtherscanCollector } from "./EtherscanCollector";
-=======
-import { EtherchainCollector } from "./EtherchainCollector";
-import { EtherscanCollector } from "./EtherscanCollector";
-import { GasNowCollector } from "./GasNowCollector";
->>>>>>> develop
 import { GasStationCollector } from "./GasStationCollector";
 import { MyCryptoCollector } from "./MyCryptoCollector";
 import { NetworkCollector } from "./NetworkCollector";
 import { UpvestCollector } from "./UpvestCollector";
 import { Collector } from "./Collector";
-
 
 export class GasCollector {
 
