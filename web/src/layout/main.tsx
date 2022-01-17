@@ -16,6 +16,9 @@ function Main() {
                 {/* <div className="alert alert-warning m-3" role="alert">
                     Enjoy ETH Gas.watch? Support us on <a href="https://gitcoin.co/grants/1175/eth-gaswatch" className="alert-link">Gitcoin Grants</a> round 9. Even a small donation can go a long way 💰
                 </div> */}
+                <div className="alert alert-warning m-3" role="alert">
+                    UPDATE: Jan 17 - all alerts have been reset. No notifications will be sent on previously set prices.
+                </div>
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/"><Home /></Route>
