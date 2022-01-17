@@ -1,5 +1,11 @@
 import { RecommendedGasPrices } from "../types";
+<<<<<<< HEAD
 import { EtherscanCollector } from "./EtherscanCollector";
+=======
+import { EtherchainCollector } from "./EtherchainCollector";
+import { EtherscanCollector } from "./EtherscanCollector";
+import { GasNowCollector } from "./GasNowCollector";
+>>>>>>> develop
 import { GasStationCollector } from "./GasStationCollector";
 import { MyCryptoCollector } from "./MyCryptoCollector";
 import { NetworkCollector } from "./NetworkCollector";
@@ -9,9 +15,7 @@ import { Collector } from "./Collector";
 
 export class GasCollector {
 
-    async Get() : Promise<RecommendedGasPrices[]>{
-
-        // remove EtherchainCollector, GasNowCollector
+    async Get() : Promise<RecommendedGasPrices[]> {
         const collectors : (typeof Collector)[] = [EtherscanCollector, GasStationCollector, MyCryptoCollector, NetworkCollector, UpvestCollector];
         const results = new Array<RecommendedGasPrices>();
         const gases = await Promise.all(collectors
