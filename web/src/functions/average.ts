@@ -45,7 +45,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
       statusCode: 200,
       body: JSON.stringify(response),
       headers: {
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': 'https://ethgas.watch/'
       }
   }
 }

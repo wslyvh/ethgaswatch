@@ -14,7 +14,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
       body: JSON.stringify(data),
       headers: {
         'Cache-Control': 'public, max-age=300',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': 'https://ethgas.watch/'
       }
   }
 }
