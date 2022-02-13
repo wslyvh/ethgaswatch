@@ -13,9 +13,9 @@ export const Header = () => {
           <li className="nav-item active">
             <a className="nav-link" href="/stats">Stats</a>
           </li>
-          <li className="nav-item active">
+          {/* <li className="nav-item active">
             <a className="nav-link" href="https://docs.ethgas.watch/">Developers</a>
-          </li>
+          </li> */}
         </ul>
       </div>
     </nav>
