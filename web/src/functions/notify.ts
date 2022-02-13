@@ -7,7 +7,15 @@ import { RegisteredEmailAddress } from '../types';
 AlertConnect().then(() => console.log("AlertService Connected"));
 GasConnect().then(() => console.log("GasService Connected"));
 
-export async function handler(event: APIGatewayEvent, context: Context) {    
+export async function handler(event: APIGatewayEvent, context: Context) {
+    return {
+        statusCode: 200,
+        body: JSON.stringify({
+            message: 'Ok',
+            data: '',
+        })
+    }
+    
     context.callbackWaitsForEmptyEventLoop = false;
 
     const data = await GetLatestGasData();

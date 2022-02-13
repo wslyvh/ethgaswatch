@@ -5,7 +5,7 @@ import { Heatmap } from '../components/heatmap';
 function Home() {
   return (
     <div>
-      <Register />
+      {/* <Register /> */}
       <GasPrices />
       <Heatmap />
     </div>
