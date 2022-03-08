@@ -18,7 +18,7 @@ function Main() {
                     Enjoy ETH Gas.watch? Please support us on <a href="https://gitcoin.co/grants/4143/wslyvh-useweb3-ethgas-tokenlog-more" className="alert-link">Gitcoin Grants</a>. Even a small donation can go a long way 💰
                 </div> */}
                 <div className="alert alert-info m-3" role="alert">
-                    NOTE: ETHGas.watch no longer supports email notifications. Follow <a href='https://twitter.com/wslyvh'>@wslyvh</a> for updates or <a href='https://github.com/wslyvh/ethgaswatch'>fork on Github</a> to run your own.
+                    NOTE: ETHGas.watch is migrating it's service. Visit <a href='https://www.useweb3.xyz/gas'>useWeb3 Gas tracker</a> or follow <a href='https://twitter.com/wslyvh'>@wslyvh</a> for updates.
                 </div>
                 <BrowserRouter>
                     <Switch>
