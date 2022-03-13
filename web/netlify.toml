@@ -4,6 +4,12 @@
   publish = "build"
 
 [[redirects]]
+  from = '*'
+  to = 'https://www.useweb3.xyz/gas?source=ethgas.watch&referrer=ethgas.watch'
+  status = 301
+
+
+[[redirects]]
   from = '/api/gas/trend'
   to = '/.netlify/functions/trend'
   status = 200
