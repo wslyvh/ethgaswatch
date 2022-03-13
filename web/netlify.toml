@@ -4,27 +4,31 @@
   publish = "build"
 
 [[redirects]]
+  from = '/'
+  to = 'https://www.useweb3.xyz/gas?source=ethgas.watch&referrer=ethgas.watch'
+  status = 301
+
+[[redirects]]
   from = '/*'
   to = 'https://www.useweb3.xyz/gas?source=ethgas.watch&referrer=ethgas.watch'
   status = 301
 
+# [[redirects]]
+#   from = '/api/gas/trend'
+#   to = '/.netlify/functions/trend'
+#   status = 200
 
-[[redirects]]
-  from = '/api/gas/trend'
-  to = '/.netlify/functions/trend'
-  status = 200
+# [[redirects]]
+#   from = '/api/alerts/stats'
+#   to = '/.netlify/functions/alerts'
+#   status = 200
 
-[[redirects]]
-  from = '/api/alerts/stats'
-  to = '/.netlify/functions/alerts'
-  status = 200
+# [[redirects]]
+#   from = '/api/*'
+#   to = '/.netlify/functions/:splat'
+#   status = 200
 
-[[redirects]]
-  from = '/api/*'
-  to = '/.netlify/functions/:splat'
-  status = 200
-
-[[redirects]]
-  from = '/*'
-  to = '/index.html'
-  status = 200
+# [[redirects]]
+#   from = '/*'
+#   to = '/index.html'
+#   status = 200
