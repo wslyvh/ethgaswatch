@@ -6,11 +6,19 @@
 [[redirects]]
   from = '/'
   to = 'https://www.useweb3.xyz/gas?source=ethgas.watch&referrer=ethgas.watch'
+  force = true
   status = 301
 
 [[redirects]]
   from = '/*'
   to = 'https://www.useweb3.xyz/gas?source=ethgas.watch&referrer=ethgas.watch'
+  force = true
+  status = 301
+
+[[redirects]]
+  from = '*'
+  to = 'https://www.useweb3.xyz/gas?source=ethgas.watch&referrer=ethgas.watch'
+  force = true
   status = 301
 
 # [[redirects]]
