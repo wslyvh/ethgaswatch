@@ -1,8 +1,11 @@
-[![Build Status](https://travis-ci.org/wslyvh/ethgaswatch.svg?branch=master)](https://travis-ci.org/wslyvh/ethgaswatch)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/8fc9f40f-2488-470d-87b0-f41b38c76b2a/deploy-status)](https://app.netlify.com/sites/ethgaswatch/deploys) 
+# THIS PROJECT IS MIGRATED
+
+This project has been migrated and is now part of [useWeb3](https://github.com/wslyvh/useWeb3). Live version available at https://www.useweb3.xyz/gas/
 
 
-<img src="https://ethgas.watch/fuel.png" alt="ETH Gas.watch" width="50"/> 
+
+---
+
 
 ETH Gas.watch is an aggregated gas price feed that checks multiple data sources for the latest gas prices. By aggregating these data sources, it provides a more reliable, median gas price. The service includes email alerts to get notified when the price drops.
 
