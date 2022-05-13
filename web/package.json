@@ -6,7 +6,8 @@
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"netlify-lambda serve src/functions\"",
     "functions": "netlify-lambda serve src/functions",
-    "build": "react-scripts build && netlify-lambda build src/functions",
+    "build:all": "react-scripts build && netlify-lambda build src/functions",
+    "build": "react-scripts build",
     "test": "react-scripts test --coverage --verbose --detectOpenHandles --forceExit"
   },
   "dependencies": {
